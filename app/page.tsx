@@ -128,7 +128,7 @@ export default function Home() {
                 <motion.a
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  href="/CV-Ridho-Maulana.pdf"
+                  href="/ridhomaulana/CV-Ridho-Maulana.pdf"
                   download="CV-Ridho-Maulana.pdf"
                   className="rounded border border-[#1A1A1A] dark:border-white px-8 py-3 text-sm font-semibold tracking-wider uppercase text-[#1A1A1A] dark:text-white hover:bg-[#1A1A1A] dark:hover:bg-white hover:text-white dark:hover:text-[#1A1A1A] transition-all"
                 >
