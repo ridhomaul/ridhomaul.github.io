@@ -1,0 +1,22 @@
+<svg width="560" height="320" viewBox="0 0 560 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="scheduler-title scheduler-desc">
+  <title id="scheduler-title">Scheduler project thumbnail</title>
+  <desc id="scheduler-desc">A dark dashboard with calendar blocks and task indicators.</desc>
+  <rect width="560" height="320" rx="24" fill="#0F172A"/>
+  <rect x="44" y="44" width="472" height="232" rx="20" fill="#111827" stroke="#67E8F9" stroke-opacity=".35" stroke-width="2"/>
+  <rect x="76" y="80" width="408" height="38" rx="10" fill="#164E63"/>
+  <g fill="#1E293B">
+    <rect x="76" y="144" width="72" height="46" rx="10"/>
+    <rect x="164" y="144" width="72" height="46" rx="10"/>
+    <rect x="252" y="144" width="72" height="46" rx="10"/>
+    <rect x="340" y="144" width="72" height="46" rx="10"/>
+    <rect x="76" y="206" width="72" height="46" rx="10"/>
+    <rect x="164" y="206" width="72" height="46" rx="10"/>
+    <rect x="252" y="206" width="72" height="46" rx="10"/>
+    <rect x="340" y="206" width="72" height="46" rx="10"/>
+  </g>
+  <rect x="91" y="159" width="42" height="16" rx="8" fill="#67E8F9"/>
+  <rect x="179" y="221" width="42" height="16" rx="8" fill="#60A5FA"/>
+  <rect x="355" y="159" width="42" height="16" rx="8" fill="#67E8F9"/>
+  <circle cx="454" cy="229" r="30" fill="#38BDF8"/>
+  <path d="M441 230l9 9 20-24" stroke="#0F172A" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

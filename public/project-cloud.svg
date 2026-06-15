@@ -1,0 +1,12 @@
+<svg width="560" height="320" viewBox="0 0 560 320" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="cloud-title cloud-desc">
+  <title id="cloud-title">Cloud project thumbnail</title>
+  <desc id="cloud-desc">Cloud deployment blocks connected to a central service.</desc>
+  <rect width="560" height="320" rx="24" fill="#0F172A"/>
+  <path d="M280 88c22-38 80-35 98 10 40 2 70 31 70 68 0 39-32 70-72 70H194c-45 0-82-34-82-76 0-40 33-73 75-76 19-40 71-51 93 4z" fill="#164E63"/>
+  <path d="M221 168h118M254 132l-44 36 44 36M306 132l44 36-44 36" stroke="#67E8F9" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="66" y="230" width="112" height="48" rx="14" fill="#111827" stroke="#67E8F9" stroke-opacity=".45" stroke-width="2"/>
+  <rect x="224" y="230" width="112" height="48" rx="14" fill="#111827" stroke="#67E8F9" stroke-opacity=".45" stroke-width="2"/>
+  <rect x="382" y="230" width="112" height="48" rx="14" fill="#111827" stroke="#67E8F9" stroke-opacity=".45" stroke-width="2"/>
+  <path d="M122 230v-25h316v25M280 230v-34" stroke="#60A5FA" stroke-width="6" stroke-linecap="round"/>
+  <path d="M94 254h56M252 254h56M410 254h56" stroke="#BAE6FD" stroke-width="8" stroke-linecap="round"/>
+</svg>
