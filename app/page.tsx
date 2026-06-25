@@ -16,21 +16,21 @@ const projects = [
   {
     title: "Milenner Platform",
     description: "Platform manajemen konten tim media sosial berbasis web dengan fitur Kanban board, multi-tenancy, dan performa tinggi.",
-    image: "/project1",
+    image: "/ridhomaulana/project1.png",
     year: "2026",
     tags: ["Laravel 12", "PHP 8.4", "PostgreSQL", "Kanban"],
   },
   {
     title: "MileniaNews Content Production",
     description: "Perencanaan, penyuntingan, dan produksi lebih dari 600 konten media digital dengan strategi distribusi yang terukur.",
-    image: "/project-monitoring.svg",
+    image: "/ridhomaulana/project-monitoring.svg",
     year: "2024 - 2026",
     tags: ["Content Planning", "Video Editing", "Media Strategy"],
   },
   {
     title: "Personal Portfolio v2",
     description: "Desain portofolio personal dengan pendekatan minimalis-editorial, performa optimal, dan animasi interaktif.",
-    image: "/project-cloud.svg",
+    image: "/ridhomaulana/project-cloud.svg",
     year: "2026",
     tags: ["Next.js 14", "Tailwind v4", "Framer Motion"],
   },
@@ -150,7 +150,7 @@ export default function Home() {
             >
               <div className="w-full max-w-md overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1A1A1A] p-2 shadow-sm transition-all duration-300 hover:shadow-2xl hover:shadow-slate-200/50 dark:hover:shadow-black/50">
                 <Image
-                  src="/profile1.png"
+                  src="/ridhomaulana/profile1.png"
                   alt="Refined digital visualization"
                   width={640}
                   height={640}
@@ -220,7 +220,7 @@ export default function Home() {
                       style={{ backfaceVisibility: "hidden" }} // Sembunyikan saat membelakangi pengguna
                     >
                       <Image
-                        src="/profile1.png"
+                        src="/ridhomaulana/profile1.png"
                         alt="Digital Portrait Visual"
                         width={400}
                         height={400}
@@ -239,7 +239,7 @@ export default function Home() {
                     >
                       <Image
                         // 3b. Pastikan Anda menambahkan file GIF ini ke folder public/
-                        src="/GIF1.gif"
+                        src="/ridhomaulana/GIF1.gif"
                         alt="Fun profile animation"
                         width={400}
                         height={400}
