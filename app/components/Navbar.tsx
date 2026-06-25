@@ -23,9 +23,9 @@ export default function Navbar() {
   useEffect(() => setMounted(true), []);
 
   return (
-    <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-50">
-      <div 
-        className="flex items-center bg-[#1a1a1a]/40 dark:bg-[#1a1a1a]/50 border border-white/10 rounded-full p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-colors"
+    <div className="fixed top-8 inset-x-0 z-50 flex justify-center pointer-events-none">
+      <nav 
+        className="pointer-events-auto flex items-center bg-[#1a1a1a]/40 dark:bg-[#1a1a1a]/50 border border-white/10 rounded-full p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.2)] transition-colors backdrop-blur-2xl"
         style={{ backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)" }}
       >
         
@@ -80,7 +80,7 @@ export default function Navbar() {
           
         </div>
 
-      </div>
-    </nav>
+      </nav>
+    </div>
   );
 }
