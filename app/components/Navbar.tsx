@@ -24,7 +24,7 @@ export default function Navbar() {
 
   return (
     <nav className="fixed top-8 left-1/2 -translate-x-1/2 z-50">
-      <div className="flex items-center bg-white/10 dark:bg-black/20 border border-white/20 dark:border-white/10 rounded-full p-1.5 shadow-[0_4px_30px_rgba(0,0,0,0.1)] backdrop-blur-md transition-colors">
+      <div className="flex items-center bg-[#1a1a1a]/40 dark:bg-[#1a1a1a]/50 border border-white/10 rounded-full p-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-2xl transition-colors">
         
         <div 
           className="flex items-center gap-1 px-2 relative" 
@@ -43,7 +43,7 @@ export default function Navbar() {
                 // Saat di-klik, perbarui ingatan menu yang aktif
                 onClick={() => setActiveItem(item.name)}
                 className={`relative flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  isHovered || isActive ? "text-[#1A1A1A] dark:text-black" : "text-slate-500 dark:text-slate-400 hover:text-[#1A1A1A] dark:hover:text-white"
+                  isHovered || isActive ? "text-white" : "text-slate-300 hover:text-white"
                 }`}
               >
                 {isHovered && (
@@ -66,7 +66,7 @@ export default function Navbar() {
         <div className="flex items-center gap-2 pr-1">
           <button 
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-1.5 text-slate-500 dark:text-slate-400 hover:text-[#1A1A1A] dark:hover:text-white hover:bg-slate-100 dark:hover:bg-[#333] rounded-full transition-colors"
+            className="p-1.5 text-slate-300 hover:text-white hover:bg-white/10 rounded-full transition-colors"
           >
             {mounted && theme === "dark" ? (
               <Sun className="w-4 h-4" />
