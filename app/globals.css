@@ -10,6 +10,25 @@
   box-sizing: border-box;
 }
 
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+  display: flex;
+  width: max-content;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
 html {
   /* Remove scroll-behavior: smooth to avoid conflicts with GSAP ScrollTrigger pinning/scrubbing */
 }

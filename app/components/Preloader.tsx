@@ -74,10 +74,10 @@ export default function Preloader({ onComplete }: PreloaderProps) {
   return (
     <div 
       ref={container}
-      className="fixed inset-0 z-[999] flex flex-col items-center justify-center bg-[#0a0a0a] text-white"
+      className="fixed inset-0 z-999 flex flex-col items-center justify-center bg-[#0a0a0a] text-white"
     >
       {/* Background ambient glow */}
-      <div className="absolute inset-0 z-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-900/15 via-[#0a0a0a] to-[#0a0a0a]"></div>
+      <div className="absolute inset-0 z-0" style={{ backgroundImage: "radial-gradient(ellipse at center, rgba(88, 28, 135, 0.15) 0%, #0a0a0a 70%, #0a0a0a 100%)" }}></div>
       
       <div className="relative z-10 flex flex-col items-center gap-12">
         {/* Animated Text */}

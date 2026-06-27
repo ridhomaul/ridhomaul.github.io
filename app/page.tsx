@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   SiLaravel, SiPhp, SiPostgresql, SiMysql, SiDocker,
-  SiTypescript, SiNextdotjs, SiReact, SiTailwindcss, SiFramer,
+  SiTypescript, SiNextdotjs, SiReact, SiTailwindcss, SiFramer, SiGreensock,
   SiPython, SiFigma, SiCanva, SiInstagram, SiWhatsapp, SiLinkerd, SiX
 } from "react-icons/si";
 import { Video, Camera } from "lucide-react";
@@ -82,21 +82,21 @@ const experiences = [
 ];
 
 const techIcons = [
-  { name: "PHP", Icon: SiPhp },
-  { name: "Laravel", Icon: SiLaravel },
-  { name: "PostgreSQL", Icon: SiPostgresql },
-  { name: "MySQL", Icon: SiMysql },
-  { name: "Docker", Icon: SiDocker },
-  { name: "Python", Icon: SiPython },
-  { name: "TypeScript", Icon: SiTypescript },
-  { name: "Next.js", Icon: SiNextdotjs },
-  { name: "React", Icon: SiReact },
-  { name: "Tailwind CSS", Icon: SiTailwindcss },
-  { name: "GSAP", Icon: SiFramer },
-  { name: "Figma", Icon: SiFigma },
-  { name: "Video Editing", Icon: Video },
-  { name: "Camera Person", Icon: Camera },
-  { name: "Canva", Icon: SiCanva },
+  { name: "PHP", Icon: SiPhp, color: "#777BB4" },
+  { name: "Laravel", Icon: SiLaravel, color: "#FF2D20" },
+  { name: "PostgreSQL", Icon: SiPostgresql, color: "#4169E1" },
+  { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
+  { name: "Docker", Icon: SiDocker, color: "#2496ED" },
+  { name: "Python", Icon: SiPython, color: "#3776AB" },
+  { name: "TypeScript", Icon: SiTypescript, color: "#3178C6" },
+  { name: "Next.js", Icon: SiNextdotjs, color: "" }, // Leaves standard dark mode inherit text color
+  { name: "React", Icon: SiReact, color: "#61DAFB" },
+  { name: "Tailwind CSS", Icon: SiTailwindcss, color: "#06B6D4" },
+  { name: "GSAP", Icon: SiGreensock, color: "#88CE02" },
+  { name: "Figma", Icon: SiFigma, color: "#F24E1E" },
+  { name: "Video Editing", Icon: Video, color: "#FF0000" },
+  { name: "Camera Person", Icon: Camera, color: "#888888" },
+  { name: "Canva", Icon: SiCanva, color: "#00C4CC" },
 ];
 
 export default function Home() {
@@ -159,18 +159,16 @@ export default function Home() {
       );
     });
 
-    // Tech Icons Stagger
-    gsap.fromTo(".tech-icon-wrap", 
-      { opacity: 0, scale: 0 },
+    // Tech Stack Fade In
+    gsap.fromTo(".tech-stack-container", 
+      { opacity: 0 },
       {
         opacity: 1,
-        scale: 1,
-        duration: 0.6,
-        stagger: 0.05,
-        ease: "back.out(1.5)",
+        duration: 1,
+        ease: "power2.out",
         scrollTrigger: {
           trigger: ".tech-stack-container",
-          start: "top 80%"
+          start: "top 85%"
         }
       }
     );
@@ -363,14 +361,18 @@ export default function Home() {
                   </div>
                 </div>
 
-                {/* Tech Stack */}
-                <div className="tech-stack-container w-full relative z-10">
+                {/* Tech Stack Marquee */}
+                <div className="tech-stack-container w-[95vw] md:w-[70vw] relative z-10 overflow-hidden mx-auto py-4 mt-8 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
                   <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-8 text-center transition-colors">Technology Stack</p>
-                  <div className="flex flex-wrap justify-center gap-6 sm:gap-8 max-w-sm mx-auto">
-                    {techIcons.map((tool) => (
-                      <div key={tool.name} className="tech-icon-wrap group relative flex flex-col items-center justify-center cursor-crosshair">
-                        <tool.Icon className="w-8 h-8 text-slate-400 dark:text-slate-500 transition-all duration-300 group-hover:text-purple-600 dark:group-hover:text-purple-400 group-hover:scale-110" />
-                        <span className="absolute -bottom-8 text-[10px] font-bold uppercase tracking-wider bg-black dark:bg-white text-white dark:text-black px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-lg">
+                  
+                  <div className="animate-marquee gap-8 md:gap-12 pl-8 md:pl-12">
+                    {[...techIcons, ...techIcons].map((tool, idx) => (
+                      <div key={idx} className="group relative flex flex-col items-center justify-center cursor-crosshair">
+                        <tool.Icon 
+                          className={`w-10 h-10 transition-all duration-300 group-hover:scale-110 ${!tool.color ? 'text-black dark:text-white' : ''}`} 
+                          style={tool.color ? { color: tool.color } : {}}
+                        />
+                        <span className="absolute -bottom-8 text-[10px] font-bold uppercase tracking-wider bg-white/90 dark:bg-black/90 text-black dark:text-white px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl border border-slate-200/50 dark:border-slate-800/50 backdrop-blur-sm z-20">
                           {tool.name}
                         </span>
                       </div>
