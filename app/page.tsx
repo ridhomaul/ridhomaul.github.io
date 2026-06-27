@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   SiLaravel, SiPhp, SiPostgresql, SiMysql, SiDocker,
-  SiTypescript, SiNextdotjs, SiReact, SiTailwindcss, SiFramer, SiGreensock,
+  SiTypescript, SiNextdotjs, SiReact, SiTailwindcss, SiGreensock,
   SiPython, SiFigma, SiCanva, SiInstagram, SiWhatsapp, SiLinkerd, SiX
 } from "react-icons/si";
 import { Video, Camera } from "lucide-react";
@@ -326,7 +326,7 @@ export default function Home() {
   return (
     <>
       {!introFinished && <Preloader onComplete={() => setIntroFinished(true)} />}
-      <div className="scroll-progress-bar fixed top-0 left-0 h-1 bg-linear-to-r from-purple-600 to-blue-500 z-[9999] origin-left scale-x-0 pointer-events-none" />
+      <div className="scroll-progress-bar fixed top-0 left-0 h-1 bg-linear-to-r from-purple-600 to-blue-500 z-9999 origin-left scale-x-0 pointer-events-none" />
       <div id="home" className="overflow-clip relative w-full" ref={container}>
         <main>
         {/* --- HERO SECTION --- */}
@@ -423,7 +423,7 @@ export default function Home() {
             </div>
 
             {/* Tech Stack Marquee */}
-            <div className="tech-stack-container w-[95vw] md:w-[70vw] relative z-10 overflow-hidden mx-auto py-4 mb-16 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <div className="tech-stack-container w-[95vw] md:w-[70vw] relative z-10 overflow-hidden mx-auto pt-4 pb-10 mb-10 mask-image-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
               <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-8 text-center transition-colors">Technology Stack</p>
               
               <div className="animate-marquee gap-8 md:gap-12 pl-8 md:pl-12">
@@ -433,7 +433,7 @@ export default function Home() {
                       className={`w-10 h-10 transition-all duration-300 group-hover:scale-110 ${!tool.color ? 'text-black dark:text-white' : ''}`} 
                       style={tool.color ? { color: tool.color } : {}}
                     />
-                    <span className="absolute -bottom-8 text-[10px] font-bold uppercase tracking-wider bg-white/90 dark:bg-black/90 text-black dark:text-white px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl border border-slate-200/50 dark:border-slate-800/50 backdrop-blur-sm z-20">
+                    <span className="absolute -bottom-6 text-[10px] font-bold uppercase tracking-wider bg-white/90 dark:bg-black/90 text-black dark:text-white px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl border border-slate-200/50 dark:border-slate-800/50 backdrop-blur-sm z-20">
                       {tool.name}
                     </span>
                   </div>
@@ -469,7 +469,7 @@ export default function Home() {
               {projects.map((project) => (
                 <article key={project.title} className="project-card flex flex-col group cursor-pointer">
                   <div className="relative overflow-hidden bg-white/50 dark:bg-[#1A1A1A]/50 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 rounded-2xl p-2 shadow-lg transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-purple-500/10 group-hover:-translate-y-2">
-                    <div className="overflow-hidden rounded-t-2xl relative aspect-[16/10]">
+                    <div className="overflow-hidden rounded-t-2xl relative aspect-16/10">
                       <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <Image
                         src={project.image}
