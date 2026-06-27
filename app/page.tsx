@@ -107,28 +107,40 @@ export default function Home() {
   useGSAP(() => {
     if (!introFinished) return;
 
-    // --- HERO SECTION ANIMATION ---
+    // --- HERO SECTION ANIMATION (CINEMATIC INTRO) ---
     const heroTimeline = gsap.timeline({ defaults: { ease: "power4.out" } });
 
     heroTimeline.fromTo(".hero-title-line",
-      { y: 100, opacity: 0, rotateZ: 5 },
-      { y: 0, opacity: 1, rotateZ: 0, duration: 1.2, stagger: 0.15 }
+      { y: 80, opacity: 0, scale: 1.1 },
+      { y: 0, opacity: 1, scale: 1, duration: 1.2, stagger: 0.15 }
     )
     .fromTo(".hero-desc",
       { opacity: 0, y: 20 },
       { opacity: 1, y: 0, duration: 1 },
-      "-=0.8"
+      "-=0.9" // Delay ~0.3s after title starts
     )
     .fromTo(".hero-button",
       { opacity: 0, scale: 0.9 },
       { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.7)" },
-      "-=0.6"
+      "-=0.6" // Delay ~0.6s after title starts
     )
     .fromTo(".hero-image",
       { opacity: 0, scale: 0.8, rotate: -5 },
       { opacity: 1, scale: 1, rotate: 0, duration: 1.5, ease: "expo.out" },
       "-=1.2"
     );
+
+    // Subtle parallax effect on scroll for Hero
+    gsap.to(".hero-image", {
+      yPercent: 20,
+      ease: "none",
+      scrollTrigger: {
+        trigger: "#home",
+        start: "top top",
+        end: "bottom top",
+        scrub: 1
+      }
+    });
 
     // Floating effect for hero image
     gsap.to(".hero-image", {
@@ -137,6 +149,17 @@ export default function Home() {
       repeat: -1,
       yoyo: true,
       ease: "sine.inOut"
+    });
+
+    // --- SCROLL PROGRESS INDICATOR ---
+    gsap.to(".scroll-progress-bar", {
+      scaleX: 1,
+      ease: "none",
+      scrollTrigger: {
+        scrub: 0.1,
+        start: "top top",
+        end: "bottom bottom"
+      }
     });
 
     // --- SCROLL ANIMATIONS ---
@@ -176,13 +199,46 @@ export default function Home() {
       );
     });
 
-    // Tech Stack Fade In
-    gsap.fromTo(".tech-stack-container", 
-      { opacity: 0 },
+    // About Section Text Stagger Reveal
+    gsap.fromTo(".about-text-p",
+      { opacity: 0, y: 30 },
       {
         opacity: 1,
+        y: 0,
+        duration: 1.2,
+        stagger: 0.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".about-text-container",
+          start: "top 80%"
+        }
+      }
+    );
+
+    // Profile Image Slide & Fade
+    gsap.fromTo(".about-image-container",
+      { opacity: 0, x: 100 },
+      {
+        opacity: 1,
+        x: 0,
+        duration: 1.2,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: ".about-image-container",
+          start: "top 85%",
+          scrub: 0.5 // Cinematic scrub
+        }
+      }
+    );
+
+    // Tech Stack Fade & Scale In
+    gsap.fromTo(".tech-stack-container", 
+      { opacity: 0, scale: 0.8 },
+      {
+        opacity: 1,
+        scale: 1,
         duration: 1,
-        ease: "power2.out",
+        ease: "power3.out",
         scrollTrigger: {
           trigger: ".tech-stack-container",
           start: "top 85%"
@@ -190,15 +246,15 @@ export default function Home() {
       }
     );
 
-    // Projects Stagger
+    // Projects Stagger (Main Showcase)
     gsap.fromTo(".project-card",
-      { opacity: 0, y: 80 },
+      { opacity: 0, y: 100 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.8,
+        duration: 1,
         stagger: 0.2,
-        ease: "power3.out",
+        ease: "power4.out",
         scrollTrigger: {
           trigger: ".projects-container",
           start: "top 80%"
@@ -239,17 +295,20 @@ export default function Home() {
       );
     });
 
-    // Parallax About Image
-    gsap.to(".about-image-container", {
-      yPercent: 20,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#about",
-        start: "top bottom",
-        end: "bottom top",
-        scrub: true
+    // Contact Section Minimal Fade
+    gsap.fromTo("#contact > div",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.5,
+        ease: "power2.out",
+        scrollTrigger: {
+          trigger: "#contact",
+          start: "top 85%"
+        }
       }
-    });
+    );
 
   }, { scope: container, dependencies: [introFinished] });
 
@@ -267,6 +326,7 @@ export default function Home() {
   return (
     <>
       {!introFinished && <Preloader onComplete={() => setIntroFinished(true)} />}
+      <div className="scroll-progress-bar fixed top-0 left-0 h-1 bg-linear-to-r from-purple-600 to-blue-500 z-[9999] origin-left scale-x-0 pointer-events-none" />
       <div id="home" className="overflow-clip relative w-full" ref={container}>
         <main>
         {/* --- HERO SECTION --- */}
@@ -382,15 +442,15 @@ export default function Home() {
             </div>
 
             {/* About Text */}
-            <div className="max-w-3xl text-center">
-              <p className="font-medium text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-7 transition-colors leading-relaxed">
+            <div className="about-text-container max-w-3xl text-center">
+              <p className="about-text-p font-medium text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-7 transition-colors leading-relaxed">
                 As a Full-Stack Developer with strong roots in the digital media industry, I see software development as more than just lines of code. It is about creating an ecosystem that connects systems with people.
               </p>
               <div className="space-y-4 font-medium text-base md:text-lg text-slate-500 dark:text-slate-400 leading-relaxed transition-colors">
-                <p>
+                <p className="about-text-p">
                   My specialization lies in designing robust backend architectures, primarily within the Laravel ecosystem, combined with clean and intuitive user interfaces.
                 </p>
-                <p>
+                <p className="about-text-p">
                   This dual background allows me to see the bigger picture of a product. From leading the execution of thousands of pieces of content at MileniaNews to building the Milenner project governance platform from the ground up, I bring media sensitivity into programming logic to design solutions that are technically scalable and relevant to the audience.
                 </p>
               </div>
@@ -409,13 +469,14 @@ export default function Home() {
               {projects.map((project) => (
                 <article key={project.title} className="project-card flex flex-col group cursor-pointer">
                   <div className="relative overflow-hidden bg-white/50 dark:bg-[#1A1A1A]/50 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 rounded-2xl p-2 shadow-lg transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-purple-500/10 group-hover:-translate-y-2">
-                    <div className="overflow-hidden rounded-xl">
+                    <div className="overflow-hidden rounded-t-2xl relative aspect-[16/10]">
+                      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <Image
                         src={project.image}
-                        alt={`Thumbnail ${project.title}`}
-                        width={560}
-                        height={320}
-                        className="aspect-video w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        alt={project.title}
+                        width={600}
+                        height={400}
+                        className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
                       />
                     </div>
                   </div>
