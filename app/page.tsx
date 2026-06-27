@@ -11,6 +11,7 @@ import {
   SiPython, SiFigma, SiCanva, SiInstagram, SiWhatsapp, SiLinkerd, SiX
 } from "react-icons/si";
 import { Video, Camera } from "lucide-react";
+import Preloader from "./components/Preloader";
 
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
@@ -99,10 +100,13 @@ const techIcons = [
 ];
 
 export default function Home() {
+  const [introFinished, setIntroFinished] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const container = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
+    if (!introFinished) return;
+
     // --- HERO SECTION ANIMATION ---
     const heroTimeline = gsap.timeline({ defaults: { ease: "power4.out" } });
 
@@ -232,7 +236,7 @@ export default function Home() {
       }
     });
 
-  }, { scope: container });
+  }, { scope: container, dependencies: [introFinished] });
 
   // Handle Flip GSAP animation manually since we removed Framer Motion here
   const flipContainer = useRef<HTMLDivElement>(null);
@@ -246,8 +250,10 @@ export default function Home() {
   };
 
   return (
-    <div id="home" className="overflow-clip relative w-full" ref={container}>
-      <main>
+    <>
+      {!introFinished && <Preloader onComplete={() => setIntroFinished(true)} />}
+      <div id="home" className="overflow-clip relative w-full" ref={container}>
+        <main>
         {/* --- HERO SECTION --- */}
         <div className="relative w-full min-h-screen flex items-center z-10 bg-transparent">
           <section className="mx-auto grid w-full max-w-7xl content-center items-center gap-12 px-6 pt-32 pb-40 lg:grid-cols-2 lg:gap-20 lg:pt-32">
@@ -267,7 +273,7 @@ export default function Home() {
                   className="group relative inline-flex items-center justify-center rounded-full bg-[#1A1A1A] dark:bg-white px-8 py-3.5 text-sm font-bold tracking-wider uppercase text-white dark:text-[#1A1A1A] transition-all hover:shadow-[0_0_20px_rgba(26,26,26,0.3)] dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:-translate-y-1 overflow-hidden"
                 >
                   <span className="relative z-10">DOWNLOAD CV</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent dark:via-black/10 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent dark:via-black/10 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
                 </a>
               </div>
             </div>
@@ -296,7 +302,7 @@ export default function Home() {
               {/* Kolom Kiri */}
               <div className="max-w-xl">
                 <h2 className="font-heading text-5xl font-medium text-[#1A1A1A] dark:text-white mb-6 leading-tight transition-colors">
-                  Hi, I&apos;m <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500 dark:from-purple-400 dark:to-blue-400">Ridho Maulana.</span>
+                  Hi, I&apos;m <br /> <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-blue-500 dark:from-purple-400 dark:to-blue-400">Ridho Maulana.</span>
                 </h2>
                 <p className="font-medium text-lg text-slate-600 dark:text-slate-300 mb-7 transition-colors leading-relaxed">
                   As a Full-Stack Developer with strong roots in the digital media industry, I see software development as more than just lines of code. It is about creating an ecosystem that connects systems with people.
@@ -312,7 +318,7 @@ export default function Home() {
               </div>
 
               {/* Kolom Tengah Divider */}
-              <div className="hidden lg:block w-px h-full min-h-[400px] bg-gradient-to-b from-transparent via-slate-300 dark:via-slate-700 to-transparent mx-4"></div>
+              <div className="hidden lg:block w-px h-full min-h-[400px] bg-linear-to-b from-transparent via-slate-300 dark:via-slate-700 to-transparent mx-4"></div>
 
               {/* Kolom Kanan */}
               <div className="flex flex-col relative w-full items-center">
@@ -379,7 +385,7 @@ export default function Home() {
           <section id="projects" className="projects-container mx-auto max-w-7xl px-6 py-24">
             <div className="reveal-section mb-16">
               <h2 className="font-heading text-4xl font-medium uppercase text-[#1A1A1A] dark:text-white transition-colors">Selected Projects</h2>
-              <div className="mt-4 h-1 w-20 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
+              <div className="mt-4 h-1 w-20 bg-linear-to-r from-purple-500 to-blue-500 rounded-full"></div>
             </div>
 
             <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 xl:grid-cols-3">
@@ -424,7 +430,7 @@ export default function Home() {
             <div className="experience-container relative max-w-4xl mx-auto">
               {/* Central Timeline Line (Desktop) */}
               <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-slate-200 dark:bg-slate-800 transform md:-translate-x-1/2">
-                <div className="timeline-line w-full bg-gradient-to-b from-purple-500 to-blue-500 origin-top"></div>
+                <div className="timeline-line w-full bg-linear-to-b from-purple-500 to-blue-500 origin-top"></div>
               </div>
 
               <div className="space-y-12">
@@ -459,8 +465,8 @@ export default function Home() {
 
           {/* CONTACT SECTION */}
           <section id="contact" className="reveal-section mx-auto max-w-7xl px-6 py-32 border-t border-slate-200/50 dark:border-slate-800/50 transition-colors">
-            <div className="bg-gradient-to-br from-white/60 to-white/10 dark:from-[#1A1A1A]/60 dark:to-[#1A1A1A]/10 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-3xl p-10 md:p-16 shadow-2xl">
-              <h2 className="font-heading text-5xl md:text-6xl font-medium text-[#1A1A1A] dark:text-white mb-8 transition-colors text-center md:text-left">Let's Connect.</h2>
+            <div className="bg-linear-to-br from-white/60 to-white/10 dark:from-[#1A1A1A]/60 dark:to-[#1A1A1A]/10 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-3xl p-10 md:p-16 shadow-2xl">
+              <h2 className="font-heading text-5xl md:text-6xl font-medium text-[#1A1A1A] dark:text-white mb-8 transition-colors text-center md:text-left">Let&apos;s Connect.</h2>
               <div className="grid gap-12 md:grid-cols-[1fr_1.5fr] items-center">
                 <p className="font-medium text-lg text-slate-600 dark:text-slate-400 leading-relaxed transition-colors text-center md:text-left">
                   Interested in discussing web code architecture, platform collaboration, or simply exchanging ideas? Let’s start a conversation.
@@ -473,7 +479,7 @@ export default function Home() {
                   <textarea name="message" rows={5} placeholder="Message" className="p-4 border border-slate-200/50 dark:border-slate-700/50 bg-white/50 dark:bg-[#121212]/50 backdrop-blur-sm dark:text-white rounded-xl text-sm font-medium transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none" />
                   <button
                     type="submit"
-                    className="group relative overflow-hidden rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 text-white px-12 py-4 text-sm font-bold uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] w-full md:w-fit cursor-pointer mt-2"
+                    className="group relative overflow-hidden rounded-xl bg-linear-to-r from-purple-600 to-blue-600 text-white px-12 py-4 text-sm font-bold uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] w-full md:w-fit cursor-pointer mt-2"
                   >
                     <span className="relative z-10">SEND MESSAGE</span>
                     <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
@@ -506,5 +512,6 @@ export default function Home() {
         </div>
       </main>
     </div>
+    </>
   );
 }

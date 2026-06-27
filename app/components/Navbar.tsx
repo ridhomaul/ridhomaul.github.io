@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { Home, Sparkles, Briefcase, User, Mail, Moon, Sun } from "lucide-react";
+import { Home, Briefcase, User, Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -27,7 +27,10 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const navRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   useGSAP(() => {
     // Hide navbar on scroll down, show on scroll up
@@ -78,7 +81,7 @@ export default function Navbar() {
                 {isHovered && (
                   <motion.div
                     layoutId="nav-pill"
-                    className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full shadow-lg"
+                    className="absolute inset-0 bg-linear-to-r from-purple-500 to-blue-500 rounded-full shadow-lg"
                     transition={{ type: "spring", stiffness: 400, damping: 30 }}
                   />
                 )}
