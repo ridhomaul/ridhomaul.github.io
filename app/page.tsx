@@ -23,21 +23,21 @@ const projects = [
   {
     title: "Milenner Platform",
     description: "Platform manajemen konten tim media sosial berbasis web dengan fitur Kanban board, multi-tenancy, dan performa tinggi.",
-    image: "/public/project1.png",
+    image: "/project1.png",
     year: "2026",
     tags: ["Laravel 12", "PHP 8.4", "PostgreSQL", "Kanban"],
   },
   {
     title: "MileniaNews Content Production",
     description: "Perencanaan, penyuntingan, dan produksi lebih dari 600 konten media digital dengan strategi distribusi yang terukur.",
-    image: "/public/project-monitoring.svg",
+    image: "/project-monitoring.svg",
     year: "2024 - 2026",
     tags: ["Content Planning", "Video Editing", "Media Strategy"],
   },
   {
     title: "Personal Portfolio v2",
     description: "Desain portofolio personal dengan pendekatan minimalis-editorial, performa optimal, dan animasi interaktif.",
-    image: "/public/project-cloud.svg",
+    image: "/project-cloud.svg",
     year: "2026",
     tags: ["Next.js 14", "Tailwind v4", "GSAP"],
   },
@@ -343,7 +343,7 @@ export default function Home() {
               </p>
               <div className="hero-button mt-8 flex flex-wrap gap-4">
                 <a
-                  href="/public/CV-Ridho-Maulana.pdf"
+                  href="/CV-Ridho-Maulana.pdf"
                   download="CV-Ridho-Maulana.pdf"
                   className="group relative inline-flex items-center justify-center rounded-full bg-[#1A1A1A] dark:bg-white px-8 py-3.5 text-sm font-bold tracking-wider uppercase text-white dark:text-[#1A1A1A] transition-all hover:shadow-[0_0_20px_rgba(26,26,26,0.3)] dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:-translate-y-1 overflow-hidden"
                 >
@@ -356,7 +356,7 @@ export default function Home() {
             <div className="flex justify-end lg:justify-center cursor-pointer">
               <div className="hero-image relative w-full max-w-md overflow-hidden rounded-2xl border border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/20 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-xl transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20">
                 <Image
-                  src="/public/profile1.png"
+                  src="/profile1.png"
                   alt="Refined digital visualization"
                   width={640}
                   height={640}
@@ -398,7 +398,7 @@ export default function Home() {
                   style={{ backfaceVisibility: "hidden" }}
                 >
                   <Image
-                    src="/public/profile1.png"
+                    src="/profile1.png"
                     alt="Digital Portrait Visual"
                     width={400}
                     height={400}
@@ -412,7 +412,7 @@ export default function Home() {
                   style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
                 >
                   <Image
-                    src="/public/GIF1.gif"
+                    src="/GIF1.gif"
                     alt="Fun profile animation"
                     width={400}
                     height={400}
