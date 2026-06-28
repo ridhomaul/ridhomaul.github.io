@@ -1,12 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { motion } from "framer-motion";
 import { Home, Briefcase, User, Mail, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useNavbarGlass } from "../hooks/useNavbarGlass";
+import { useSvgFilter } from "../hooks/useSvgFilter";
+import anime from "animejs";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -26,7 +28,6 @@ export default function Navbar() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const navRef = useRef<HTMLElement>(null);
   const requestRef = useRef<number | null>(null);
   
   const [isHoveringNav, setIsHoveringNav] = useState(false);
@@ -41,6 +42,10 @@ export default function Navbar() {
     mediaQuery.addEventListener('change', listener);
     return () => mediaQuery.removeEventListener('change', listener);
   }, []);
+
+  // Anime.js Hooks Integration
+  const { navRef, handleItemHover, handleItemLeave } = useNavbarGlass(reducedMotion);
+  const { filterRef, triggerRipple } = useSvgFilter(reducedMotion);
 
   useGSAP(() => {
     const showAnim = gsap.from(wrapperRef.current, { 
@@ -86,52 +91,49 @@ export default function Navbar() {
     }
   };
 
+  // Anime.js Sliding Pill logic
+  const itemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
+  const pillRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (reducedMotion || !pillRef.current) return;
+    
+    const activeIndex = navItems.findIndex(i => i.name === (hoveredItem || activeItem));
+    const targetEl = itemsRef.current[activeIndex];
+    
+    if (targetEl && pillRef.current) {
+      anime({
+        targets: pillRef.current,
+        left: targetEl.offsetLeft,
+        width: targetEl.offsetWidth,
+        opacity: 1,
+        duration: 400,
+        easing: 'easeOutElastic(1, .8)'
+      });
+    }
+  }, [activeItem, hoveredItem, reducedMotion]);
+
   return (
     <div ref={wrapperRef} className="fixed top-6 inset-x-0 z-50 flex justify-center pointer-events-none perspective-[1000px]">
       
-      {/* 
-        ========================================================================
-        ULTIMATE LIQUID GLASS SVG FILTER
-        Real Refraction + Chromatic Aberration + Internal Light Bending
-        ======================================================================== 
-      */}
-      <svg className="fixed w-0 h-0 pointer-events-none" aria-hidden="true" style={{ position: 'absolute' }}>
+      <svg ref={filterRef} className="fixed w-0 h-0 pointer-events-none" aria-hidden="true" style={{ position: 'absolute' }}>
         <defs>
           <filter id="real-liquid-glass" x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
-            {/* 1. Depth of Field Blur */}
             <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="BLUR" />
-            
-            {/* 2. Liquid Flow Turbulence (Wave distortion) */}
-            <feTurbulence type="fractalNoise" baseFrequency="0.01 0.015" numOctaves="3" result="NOISE" seed="42">
-              <animate attributeName="baseFrequency" values="0.01 0.015; 0.015 0.02; 0.01 0.015" dur="12s" repeatCount="indefinite" />
-              <animate attributeName="seed" values="42; 84; 42" dur="30s" repeatCount="indefinite" />
-            </feTurbulence>
-            
-            {/* Boost contrast of noise for sharper refraction */}
-            <feColorMatrix type="matrix" values="
-              1 0 0 0 0
-              0 1 0 0 0
-              0 0 1 0 0
-              0 0 0 1.5 -0.2" in="NOISE" result="INTENSE_NOISE" />
-            
-            {/* 3. Intense Refraction / Magnification */}
+            <feTurbulence type="fractalNoise" baseFrequency="0.01 0.015" numOctaves="3" result="NOISE" seed="42" />
+            <feColorMatrix type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 1.5 -0.2" in="NOISE" result="INTENSE_NOISE" />
             <feDisplacementMap in="BLUR" in2="INTENSE_NOISE" scale="40" xChannelSelector="R" yChannelSelector="G" result="REFRACTED" />
             
-            {/* 4. Chromatic Aberration RGB Splitting */}
-            {/* Offset the refracted image to split the channels slightly */}
             <feOffset dx="4" dy="0" in="REFRACTED" result="R_SHIFT" />
             <feOffset dx="-4" dy="0" in="REFRACTED" result="B_SHIFT" />
             
-            {/* Isolate colors */}
             <feColorMatrix type="matrix" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" in="R_SHIFT" result="RED" />
             <feColorMatrix type="matrix" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" in="REFRACTED" result="GREEN" />
             <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" in="B_SHIFT" result="BLUE" />
             
-            {/* Recombine channels */}
             <feBlend mode="screen" in="RED" in2="GREEN" result="RG" />
             <feBlend mode="screen" in="RG" in2="BLUE" result="FINAL_RGB" />
             
-            {/* 5. Internal Caustic Brilliance (slight brightness curve to make it look like solid glass) */}
             <feComponentTransfer in="FINAL_RGB" result="FINAL_GLASS">
               <feFuncR type="linear" slope="1.05" intercept="0.02" />
               <feFuncG type="linear" slope="1.05" intercept="0.02" />
@@ -141,45 +143,16 @@ export default function Navbar() {
         </defs>
       </svg>
 
-      {/* Dynamic Keyframes for internal light sweeps */}
-      <style dangerouslySetInnerHTML={{__html: `
-        @keyframes sweep-primary {
-          0% { transform: translateX(-150%) skewX(-30deg); opacity: 0; }
-          15% { opacity: 0.9; }
-          30% { transform: translateX(250%) skewX(-30deg); opacity: 0; }
-          100% { transform: translateX(250%) skewX(-30deg); opacity: 0; }
-        }
-        @keyframes sweep-secondary {
-          0% { transform: translateX(-150%) skewX(-40deg); opacity: 0; }
-          20% { opacity: 0.5; }
-          40% { transform: translateX(250%) skewX(-40deg); opacity: 0; }
-          100% { transform: translateX(250%) skewX(-40deg); opacity: 0; }
-        }
-        .animate-sweep-1 {
-          animation: sweep-primary 8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-          will-change: transform;
-        }
-        .animate-sweep-2 {
-          animation: sweep-secondary 12s cubic-bezier(0.25, 1, 0.5, 1) infinite;
-          animation-delay: 2s;
-          will-change: transform;
-        }
-      `}} />
-
       <nav 
         ref={navRef}
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHoveringNav(true)}
         onMouseLeave={handleMouseLeave}
-        className="pointer-events-auto relative flex items-center p-2 transition-all duration-500 rounded-full group"
+        onClick={triggerRipple}
+        className="pointer-events-auto relative flex items-center p-2 transition-all duration-500 rounded-full group cursor-pointer"
         style={{ transformStyle: 'preserve-3d' }}
       >
-        
-        {/* =========================================
-            GLASS VOLUME LAYERS
-            ========================================= */}
-            
-        {/* Layer 1: Real Background Refraction (SVG Backdrop Filter) */}
+        {/* Layer 1: SVG Backdrop Filter */}
         <div 
           className="absolute inset-0 rounded-full pointer-events-none bg-white/5 dark:bg-[#0a0a0a]/10"
           style={{ 
@@ -188,21 +161,21 @@ export default function Navbar() {
           }}
         />
 
-        {/* Layer 2: Glass Thickness (Inner rims and 3D shadow) */}
+        {/* Layer 2: Glass Thickness */}
         <div 
           className="absolute inset-0 rounded-full pointer-events-none border border-white/30 dark:border-white/10"
           style={{
             boxShadow: `
-              inset 0 4px 12px -2px rgba(255,255,255,0.8),    /* Top rim highlight (thick) */
-              inset 0 -6px 15px -4px rgba(0,0,0,0.5),         /* Bottom dark volume */
-              inset 3px 0 8px -2px rgba(255,255,255,0.4),     /* Left rim highlight */
-              inset -3px 0 8px -2px rgba(0,0,0,0.4),          /* Right dark rim */
-              0 25px 50px -12px rgba(0,0,0,0.6)               /* Heavy drop shadow for floating */
+              inset 0 4px 12px -2px rgba(255,255,255,0.8),
+              inset 0 -6px 15px -4px rgba(0,0,0,0.5),
+              inset 3px 0 8px -2px rgba(255,255,255,0.4),
+              inset -3px 0 8px -2px rgba(0,0,0,0.4),
+              0 25px 50px -12px rgba(0,0,0,0.6)
             `
           }}
         />
 
-        {/* Layer 3: Contoured Surface Specular (Glossy Curve) */}
+        {/* Layer 3: Contoured Surface Specular */}
         <div 
           className="absolute inset-0 rounded-full pointer-events-none mix-blend-overlay opacity-90"
           style={{
@@ -218,7 +191,7 @@ export default function Navbar() {
           }}
         />
 
-        {/* Layer 4: Subtle Edge Chromatic Aberration Rim */}
+        {/* Layer 4: Chromatic Aberration Rim */}
         <div 
           className="absolute inset-0 rounded-full pointer-events-none mix-blend-screen opacity-70"
           style={{
@@ -226,7 +199,7 @@ export default function Navbar() {
           }}
         />
 
-        {/* Layer 5: Internal Caustic Core (Light bending in the volume) */}
+        {/* Layer 5: Caustic Core */}
         <div 
           className="absolute inset-0 rounded-full pointer-events-none mix-blend-color-dodge opacity-60"
           style={{
@@ -234,17 +207,15 @@ export default function Navbar() {
           }}
         />
 
-        {/* Layer 6: Dynamic Multi-layer Sweeping Reflections */}
+        {/* Layer 6: Dynamic Multi-layer Sweeping Reflections (Managed by Anime.js) */}
         {!reducedMotion && (
           <div className="absolute inset-0 rounded-full overflow-hidden pointer-events-none">
-            {/* Primary fast reflection */}
-            <div className="w-[50%] h-[150%] absolute -top-1/4 -left-[50%] bg-linear-to-r from-transparent via-white/70 to-transparent animate-sweep-1 mix-blend-overlay blur-[1px]" />
-            {/* Secondary slow reflection (parallax thickness) */}
-            <div className="w-[80%] h-[150%] absolute -top-1/4 -left-[80%] bg-linear-to-r from-transparent via-white/30 to-transparent animate-sweep-2 blur-[3px]" />
+            <div className="anime-sweep-1 w-[50%] h-[150%] absolute -top-1/4 -left-[50%] bg-linear-to-r from-transparent via-white/70 to-transparent mix-blend-overlay blur-[1px] skew-x-[-30deg]" />
+            <div className="anime-sweep-2 w-[80%] h-[150%] absolute -top-1/4 -left-[80%] bg-linear-to-r from-transparent via-white/30 to-transparent blur-[3px] skew-x-[-40deg]" />
           </div>
         )}
 
-        {/* Layer 7: Mouse Reactive Internal Light (Caustic interaction) */}
+        {/* Layer 7: Mouse Reactive Internal Light */}
         {!reducedMotion && isHoveringNav && (
           <div 
             className="absolute inset-0 pointer-events-none rounded-full mix-blend-screen z-0 transition-opacity duration-300"
@@ -254,12 +225,17 @@ export default function Navbar() {
           />
         )}
 
+        {/* Sliding Pill using Anime.js */}
+        <div 
+          ref={pillRef}
+          className="absolute top-2 bottom-2 bg-linear-to-r from-purple-500/90 to-blue-500/90 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5),inset_0_-2px_4px_rgba(0,0,0,0.3),0_0_15px_rgba(168,85,247,0.6)] border border-white/40 dark:border-white/20 z-0 opacity-0 pointer-events-none"
+        >
+          <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/50 to-transparent rounded-t-full pointer-events-none" />
+        </div>
 
-        {/* =========================================
-            NAVIGATION ITEMS
-            ========================================= */}
+        {/* NAVIGATION ITEMS */}
         <div className="flex items-center gap-1.5 px-2 relative z-10">
-          {navItems.map((item) => {
+          {navItems.map((item, idx) => {
             const isHovered = hoveredItem === item.name;
             const isActive = activeItem === item.name;
 
@@ -267,7 +243,15 @@ export default function Navbar() {
               <a
                 key={item.name}
                 href={item.href}
-                onMouseEnter={() => setHoveredItem(item.name)}
+                // @ts-ignore
+                ref={el => itemsRef.current[idx] = el}
+                onMouseEnter={(e) => {
+                  setHoveredItem(item.name);
+                  handleItemHover(e.currentTarget);
+                }}
+                onMouseLeave={(e) => {
+                  handleItemLeave(e.currentTarget);
+                }}
                 onClick={() => setActiveItem(item.name)}
                 className={`relative flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 ${
                   isHovered || isActive 
@@ -275,18 +259,6 @@ export default function Navbar() {
                     : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white drop-shadow-sm"
                 }`}
               >
-                {/* Active/Hover Pill inside the glass */}
-                {(isHovered || isActive) && (
-                  <motion.div
-                    layoutId="nav-pill"
-                    className="absolute inset-0 bg-linear-to-r from-purple-500/90 to-blue-500/90 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5),inset_0_-2px_4px_rgba(0,0,0,0.3),0_0_15px_rgba(168,85,247,0.6)] border border-white/40 dark:border-white/20 z-0"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  >
-                    {/* Glossy overlay for the pill itself */}
-                    <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/50 to-transparent rounded-t-full pointer-events-none" />
-                  </motion.div>
-                )}
-                
                 <item.icon className={`relative w-4 h-4 transition-colors duration-300 z-20 ${isActive && !isHovered ? "text-purple-600 dark:text-purple-300" : ""}`} />
                 <span className={`relative hidden sm:inline transition-colors duration-300 z-20 ${isActive && !isHovered ? "text-purple-600 dark:text-purple-300" : ""}`}>{item.name}</span>
               </a>
@@ -301,8 +273,9 @@ export default function Navbar() {
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             className="p-2.5 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white rounded-full transition-all duration-300 relative group drop-shadow-sm"
             aria-label="Toggle theme"
+            onMouseEnter={(e) => handleItemHover(e.currentTarget)}
+            onMouseLeave={(e) => handleItemLeave(e.currentTarget)}
           >
-            {/* Button Hover Glow */}
             <div className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/20 dark:group-hover:bg-white/10 transition-colors duration-300 pointer-events-none" />
             
             {mounted && theme === "dark" ? (

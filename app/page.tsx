@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,6 +12,11 @@ import {
 } from "react-icons/si";
 import { Video, Camera } from "lucide-react";
 import Preloader from "./components/Preloader";
+
+// Anime.js Micro-Interaction Hooks
+import { useButtonInteraction } from "./hooks/useButtonInteraction";
+import { useCardInteraction } from "./hooks/useCardInteraction";
+import { useCursorReflection } from "./hooks/useCursorReflection";
 
 // Register ScrollTrigger
 if (typeof window !== "undefined") {
@@ -103,6 +108,22 @@ export default function Home() {
   const [introFinished, setIntroFinished] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const container = useRef<HTMLDivElement>(null);
+  
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mediaQuery.matches);
+    
+    const listener = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mediaQuery.addEventListener('change', listener);
+    return () => mediaQuery.removeEventListener('change', listener);
+  }, []);
+
+  // Initialize Anime.js Micro-Interactions
+  useButtonInteraction(reducedMotion);
+  useCardInteraction(reducedMotion);
+  useCursorReflection(reducedMotion);
 
   useGSAP(() => {
     if (!introFinished) return;
@@ -345,7 +366,7 @@ export default function Home() {
                 <a
                   href="/CV-Ridho-Maulana.pdf"
                   download="CV-Ridho-Maulana.pdf"
-                  className="group relative inline-flex items-center justify-center rounded-full bg-[#1A1A1A] dark:bg-white px-8 py-3.5 text-sm font-bold tracking-wider uppercase text-white dark:text-[#1A1A1A] transition-all hover:shadow-[0_0_20px_rgba(26,26,26,0.3)] dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:-translate-y-1 overflow-hidden"
+                  className="anime-button group relative inline-flex items-center justify-center rounded-full bg-[#1A1A1A] dark:bg-white px-8 py-3.5 text-sm font-bold tracking-wider uppercase text-white dark:text-[#1A1A1A] transition-all hover:shadow-[0_0_20px_rgba(26,26,26,0.3)] dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] overflow-hidden"
                 >
                   <span className="relative z-10">DOWNLOAD CV</span>
                   <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent dark:via-black/10 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
@@ -467,8 +488,8 @@ export default function Home() {
 
             <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 xl:grid-cols-3">
               {projects.map((project) => (
-                <article key={project.title} className="project-card flex flex-col group cursor-pointer">
-                  <div className="relative overflow-hidden bg-white/50 dark:bg-[#1A1A1A]/50 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 rounded-2xl p-2 shadow-lg transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-purple-500/10 group-hover:-translate-y-2">
+                <article key={project.title} className="anime-card project-card flex flex-col group cursor-pointer perspective-[1000px] transform-style-3d">
+                  <div className="relative overflow-hidden bg-white/50 dark:bg-[#1A1A1A]/50 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 rounded-2xl p-2 shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-purple-500/10">
                     <div className="overflow-hidden rounded-t-2xl relative aspect-16/10">
                       <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                       <Image
@@ -557,7 +578,7 @@ export default function Home() {
                   <textarea name="message" rows={5} placeholder="Message" className="p-4 border border-slate-200/50 dark:border-slate-700/50 bg-white/50 dark:bg-[#121212]/50 backdrop-blur-sm dark:text-white rounded-xl text-sm font-medium transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none" />
                   <button
                     type="submit"
-                    className="group relative overflow-hidden rounded-xl bg-linear-to-r from-purple-600 to-blue-600 text-white px-12 py-4 text-sm font-bold uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] w-full md:w-fit cursor-pointer mt-2"
+                    className="anime-button group relative overflow-hidden rounded-xl bg-linear-to-r from-purple-600 to-blue-600 text-white px-12 py-4 text-sm font-bold uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] w-full md:w-fit cursor-pointer mt-2"
                   >
                     <span className="relative z-10">SEND MESSAGE</span>
                     <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
