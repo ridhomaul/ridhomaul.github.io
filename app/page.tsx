@@ -499,11 +499,13 @@ export default function Home() {
             </div>
 
             {/* Marquee Container */}
-            <div className="relative w-full overflow-hidden" style={{ maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)", WebkitMaskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)" }}>
+            <div className="relative w-full overflow-hidden flex flex-col gap-8 md:gap-12" style={{ maskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)", WebkitMaskImage: "linear-gradient(to right, transparent, black 8%, black 92%, transparent)" }}>
+              
+              {/* Top Row (Moves Left) */}
               <div className="animate-marquee gap-10 md:gap-14 pl-10 md:pl-14">
-                {[...Object.values(techStack).flat(), ...Object.values(techStack).flat()].map((tool, idx) => (
+                {[...Object.values(techStack).flat().slice(0, Math.ceil(Object.values(techStack).flat().length / 2)), ...Object.values(techStack).flat().slice(0, Math.ceil(Object.values(techStack).flat().length / 2))].map((tool, idx) => (
                   <div
-                    key={`${tool.name}-${idx}`}
+                    key={`top-${tool.name}-${idx}`}
                     className="tech-item flex items-center gap-3 flex-shrink-0 group cursor-default"
                   >
                     <tool.Icon
@@ -516,6 +518,25 @@ export default function Home() {
                   </div>
                 ))}
               </div>
+
+              {/* Bottom Row (Moves Right) */}
+              <div className="animate-marquee-reverse gap-10 md:gap-14 pl-10 md:pl-14">
+                {[...Object.values(techStack).flat().slice(Math.ceil(Object.values(techStack).flat().length / 2)), ...Object.values(techStack).flat().slice(Math.ceil(Object.values(techStack).flat().length / 2))].map((tool, idx) => (
+                  <div
+                    key={`bottom-${tool.name}-${idx}`}
+                    className="tech-item flex items-center gap-3 flex-shrink-0 group cursor-default"
+                  >
+                    <tool.Icon
+                      className={`w-6 h-6 md:w-7 md:h-7 transition-transform duration-200 group-hover:scale-110 ${!tool.color ? "text-[var(--color-text-primary)]" : ""}`}
+                      style={tool.color ? { color: tool.color } : {}}
+                    />
+                    <span className="text-sm font-medium text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors duration-200 whitespace-nowrap">
+                      {tool.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
             </div>
           </section>
 
