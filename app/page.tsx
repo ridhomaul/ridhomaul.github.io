@@ -146,8 +146,9 @@ const socialLinks = [
 
 export default function Home() {
   const [introFinished, setIntroFinished] = useState(false);
-  const container = useRef<HTMLDivElement>(null);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
+  const container = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -351,15 +352,47 @@ export default function Home() {
             <div className="reveal-section mx-auto max-w-[1200px] px-6 md:px-12">
               <div className="grid gap-12 md:gap-16 lg:grid-cols-[1fr_1.2fr] items-center">
                 {/* Profile Image */}
-                <div className="relative w-full max-w-md mx-auto lg:mx-0">
-                  <div className="overflow-hidden rounded-(--radius) shadow-(--shadow-md)">
-                    <Image
-                      src="/profile1.png"
-                      alt="Ridho Maulana"
-                      width={500}
-                      height={500}
-                      className="w-full aspect-square object-cover"
-                    />
+                <div 
+                  className="relative w-full max-w-md mx-auto lg:mx-0 aspect-square cursor-pointer group"
+                  style={{ perspective: "1000px" }}
+                  onClick={() => setIsFlipped(!isFlipped)}
+                >
+                  <div 
+                    className="relative w-full h-full transition-transform duration-700 ease-in-out"
+                    style={{ 
+                      transformStyle: "preserve-3d", 
+                      transform: isFlipped ? "rotateY(180deg)" : "rotateY(0deg)" 
+                    }}
+                  >
+                    {/* Front: Static Photo */}
+                    <div 
+                      className="absolute inset-0 overflow-hidden rounded-full shadow-2xl border-4 border-border"
+                      style={{ backfaceVisibility: "hidden" }}
+                    >
+                      <Image
+                        src="/profile1.png"
+                        alt="Ridho Maulana"
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    
+                    {/* Back: GIF Placeholder */}
+                    <div 
+                      className="absolute inset-0 overflow-hidden rounded-full shadow-2xl bg-surface flex items-center justify-center border-4 border-border"
+                      style={{ 
+                        backfaceVisibility: "hidden", 
+                        transform: "rotateY(180deg)" 
+                      }}
+                    >
+                      <Image
+                        src="/GIF1.gif"
+                        alt="Ridho Maulana Action"
+                        fill
+                        unoptimized
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
                 </div>
 
