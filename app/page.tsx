@@ -268,21 +268,25 @@ export default function Home() {
       }
     );
 
-    // Projects Stagger (Main Showcase)
-    gsap.fromTo(".project-card",
-      { opacity: 0, y: 100 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        stagger: 0.2,
-        ease: "power4.out",
+    // Horizontal Scroll (Projects Cinematic Showcase)
+    const projectsTrack = document.querySelector('.projects-track') as HTMLElement;
+    
+    if (projectsTrack) {
+      const getScrollAmount = () => -(projectsTrack.scrollWidth - window.innerWidth);
+      
+      gsap.to(projectsTrack, {
+        x: getScrollAmount,
+        ease: "none",
         scrollTrigger: {
-          trigger: ".projects-container",
-          start: "top 80%"
+          trigger: ".projects-wrapper",
+          start: "top top",
+          end: () => `+=${-(projectsTrack.scrollWidth - window.innerWidth)}`,
+          pin: true,
+          scrub: 1,
+          invalidateOnRefresh: true,
         }
-      }
-    );
+      });
+    }
 
     // Experience Timeline Draw
     gsap.fromTo(".timeline-line",
@@ -480,48 +484,75 @@ export default function Home() {
 
           </section>
 
-          {/* PROJECTS SECTION */}
-          <section id="projects" className="projects-container mx-auto max-w-7xl px-6 py-24">
-            <div className="reveal-section mb-16">
-              <h2 className="font-heading text-4xl font-medium uppercase text-[#1A1A1A] dark:text-white transition-colors">Selected Projects</h2>
-              <div className="mt-4 h-1 w-20 bg-linear-to-r from-purple-500 to-blue-500 rounded-full"></div>
-            </div>
+          {/* PROJECTS SECTION (Cinematic Horizontal Scroll) */}
+          <div id="projects" className="projects-wrapper w-full h-screen relative overflow-hidden bg-[#FAF8F5]/90 dark:bg-[#121212]/90 border-t border-slate-200/50 dark:border-slate-800/50">
+            <div className="projects-track flex h-full items-center pl-6 md:pl-20 pr-[50vw]">
+              
+              {/* Intro Title Card */}
+              <div className="reveal-section flex-shrink-0 w-[80vw] md:w-[40vw] flex flex-col justify-center mr-16">
+                <h2 className="font-heading text-5xl md:text-7xl font-medium uppercase text-[#1A1A1A] dark:text-white transition-colors leading-[1.1]">
+                  Selected <br/> Projects
+                </h2>
+                <div className="mt-6 h-1 w-24 bg-linear-to-r from-purple-500 to-blue-500 rounded-full"></div>
+                <p className="mt-6 text-slate-600 dark:text-slate-400 font-medium text-lg max-w-sm">
+                  A collection of digital solutions bridging engineering with media strategy.
+                </p>
+                <div className="mt-12 flex items-center gap-4 text-purple-600 dark:text-purple-400 font-bold text-sm tracking-widest uppercase opacity-70">
+                  <span className="animate-pulse">Scroll to explore</span>
+                  <div className="w-12 h-px bg-current"></div>
+                  <span className="text-xl">→</span>
+                </div>
+              </div>
 
-            <div className="grid gap-x-8 gap-y-16 md:grid-cols-2 xl:grid-cols-3">
+              {/* Project Cards */}
               {projects.map((project) => (
-                <article key={project.title} className="anime-card project-card flex flex-col group cursor-pointer perspective-[1000px] transform-style-3d">
-                  <div className="relative overflow-hidden bg-white/50 dark:bg-[#1A1A1A]/50 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 rounded-2xl p-2 shadow-lg transition-all duration-300 group-hover:shadow-2xl group-hover:shadow-purple-500/10">
-                    <div className="overflow-hidden rounded-t-2xl relative aspect-16/10">
-                      <div className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent z-10 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      <Image
-                        src={project.image}
-                        alt={project.title}
-                        width={600}
-                        height={400}
-                        className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-110"
-                      />
-                    </div>
+                <article key={project.title} className="anime-card project-card flex-shrink-0 w-[85vw] md:w-[65vw] lg:w-[50vw] h-[70vh] mr-8 md:mr-16 flex flex-col group cursor-pointer relative overflow-hidden rounded-[2.5rem] bg-white/50 dark:bg-[#1A1A1A]/50 backdrop-blur-md shadow-[0_0_40px_rgba(0,0,0,0.1)] dark:shadow-[0_0_40px_rgba(0,0,0,0.3)] border border-white/20 dark:border-white/10 transition-all duration-300">
+                  
+                  {/* Image Background */}
+                  <div className="absolute inset-0 w-full h-full overflow-hidden">
+                    <div className="absolute inset-0 bg-linear-to-t from-[#121212] via-[#121212]/50 to-transparent z-10" />
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover transition-transform duration-1000 group-hover:scale-[1.03]"
+                    />
                   </div>
-                  <div className="flex flex-1 flex-col pt-6 px-2">
-                    <h3 className="font-heading text-3xl font-medium text-[#1A1A1A] dark:text-white transition-colors group-hover:text-purple-600 dark:group-hover:text-purple-400">{project.title}</h3>
-                    <p className="text-purple-600 dark:text-purple-400 text-sm font-bold mt-2 mb-3">{project.year}</p>
-                    <p className="text-slate-600 dark:text-slate-400 font-medium text-sm mb-4 line-clamp-2">{project.description}</p>
-                    <div className="mb-6 flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <span key={tag} className="text-[10px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 bg-slate-200/50 dark:bg-slate-800/50 px-3 py-1 rounded-full backdrop-blur-sm transition-colors border border-slate-300/50 dark:border-slate-700/50">
-                          {tag}
-                        </span>
-                      ))}
+
+                  {/* Content (Bottom Left) */}
+                  <div className="relative z-20 mt-auto p-8 md:p-12 flex flex-col items-start w-full">
+                    <div className="flex flex-wrap items-center gap-3 mb-6">
+                      <p className="text-purple-300 text-xs md:text-sm font-bold bg-purple-900/40 backdrop-blur-md px-4 py-1.5 rounded-full border border-purple-500/30">
+                        {project.year}
+                      </p>
+                      <div className="flex flex-wrap gap-2">
+                        {project.tags.slice(0, 3).map((tag) => (
+                          <span key={tag} className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-slate-200 bg-white/10 px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-md">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
-                    <a href="#contact" className="mt-auto inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-[#1A1A1A] dark:text-white hover:text-purple-600 dark:hover:text-purple-400 transition-colors w-fit group/btn">
+                    
+                    <h3 className="font-heading text-3xl md:text-5xl font-medium text-white mb-4 transition-colors group-hover:text-purple-300 drop-shadow-lg leading-tight">
+                      {project.title}
+                    </h3>
+                    
+                    <p className="text-slate-300 font-medium text-sm md:text-base max-w-xl line-clamp-2 md:line-clamp-3 mb-8 drop-shadow-md">
+                      {project.description}
+                    </p>
+                    
+                    <a href="#contact" className="inline-flex items-center justify-center gap-4 text-xs md:text-sm font-bold uppercase tracking-widest text-white hover:text-purple-300 transition-colors w-fit group/btn bg-white/10 hover:bg-white/20 backdrop-blur-md pl-6 pr-2 py-2 rounded-full border border-white/20">
                       View Case Study
-                      <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
+                      <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:-rotate-45">
+                        →
+                      </div>
                     </a>
                   </div>
                 </article>
               ))}
             </div>
-          </section>
+          </div>
 
           {/* EXPERIENCE SECTION */}
           <section id="experience" className="reveal-section mx-auto max-w-7xl px-6 py-24 border-t border-slate-200/50 dark:border-slate-800/50 transition-colors">
