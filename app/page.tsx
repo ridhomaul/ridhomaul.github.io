@@ -335,7 +335,7 @@ export default function Home() {
           {/* ===== FEATURED PROJECTS ===== */}
           <section id="projects" className="py-24 md:py-32">
             <div className="projects-container mx-auto max-w-[1200px] px-6 md:px-12">
-              <div className="reveal-section mb16 text-center">
+              <div className="reveal-section mb-16 text-center">
                 <h2 className="font-(family-name:--font-geist) text-3xl md:text-4xl font-semibold">
                   Featured Projects
                 </h2>
