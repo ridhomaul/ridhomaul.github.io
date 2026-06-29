@@ -17,7 +17,8 @@ if (typeof window !== "undefined") {
 const navItems = [
   { name: "Home", href: "#home", icon: Home },
   { name: "Projects", href: "#projects", icon: Briefcase },
-  { name: "Experience", href: "#experience", icon: User },
+  { name: "About", href: "#about", icon: User },
+  { name: "Experience", href: "#experience", icon: Briefcase },
   { name: "Contact", href: "#contact", icon: Mail },
 ];
 

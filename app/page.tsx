@@ -8,9 +8,9 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   SiLaravel, SiPhp, SiPostgresql, SiMysql, SiDocker,
   SiTypescript, SiNextdotjs, SiReact, SiTailwindcss, SiGreensock,
-  SiPython, SiFigma, SiCanva, SiInstagram, SiWhatsapp, SiLinkerd, SiX
+  SiPython, SiFigma, SiCanva, SiInstagram, SiWhatsapp, SiGithub, SiLinkerd
 } from "react-icons/si";
-import { Video, Camera } from "lucide-react";
+import { Video, Camera, ExternalLink, ArrowUpRight } from "lucide-react";
 import Preloader from "./components/Preloader";
 
 // Anime.js Micro-Interaction Hooks
@@ -23,28 +23,50 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, useGSAP);
 }
 
-// --- DATA ---
+// ===== DATA =====
+
 const projects = [
   {
     title: "Milenner Platform",
-    description: "Platform manajemen konten tim media sosial berbasis web dengan fitur Kanban board, multi-tenancy, dan performa tinggi.",
+    description:
+      "Platform manajemen konten tim media sosial berbasis web dengan fitur Kanban board, multi-tenancy, dan performa tinggi.",
     image: "/project1.png",
     year: "2026",
     tags: ["Laravel 12", "PHP 8.4", "PostgreSQL", "Kanban"],
+    contribution:
+      "Merancang arsitektur sistem dari nol, membangun fitur Kanban board real-time, dan mengimplementasikan sistem multi-tenancy.",
+    challenge:
+      "Mengelola state management yang kompleks untuk Kanban board dengan drag-and-drop antar kolom secara real-time.",
+    demoUrl: "#",
+    repoUrl: "#",
   },
   {
     title: "MileniaNews Content Production",
-    description: "Perencanaan, penyuntingan, dan produksi lebih dari 600 konten media digital dengan strategi distribusi yang terukur.",
+    description:
+      "Perencanaan, penyuntingan, dan produksi lebih dari 600 konten media digital dengan strategi distribusi yang terukur.",
     image: "/project-monitoring.svg",
-    year: "2024 - 2026",
+    year: "2024 – 2026",
     tags: ["Content Planning", "Video Editing", "Media Strategy"],
+    contribution:
+      "Memimpin tim konten, menyusun editorial calendar, dan mengeksekusi produksi video dari pre-production hingga distribusi.",
+    challenge:
+      "Menjaga konsistensi output harian dengan tim kecil sambil mempertahankan kualitas konten yang tinggi.",
+    demoUrl: null,
+    repoUrl: null,
   },
   {
     title: "Personal Portfolio v2",
-    description: "Desain portofolio personal dengan pendekatan minimalis-editorial, performa optimal, dan animasi interaktif.",
+    description:
+      "Desain portofolio personal dengan pendekatan minimalis, performa optimal, dan animasi interaktif menggunakan GSAP & Anime.js.",
     image: "/project-cloud.svg",
     year: "2026",
-    tags: ["Next.js 14", "Tailwind v4", "GSAP"],
+    tags: ["Next.js 14", "Tailwind v4", "GSAP", "Anime.js"],
+    contribution:
+      "Membangun seluruh frontend dari desain hingga deployment, termasuk design system dan micro-interactions.",
+    challenge:
+      "Menciptakan animasi yang halus tanpa mengorbankan performa Lighthouse di atas 90.",
+    demoUrl: "#",
+    repoUrl: "https://github.com/ridhomaul",
   },
 ];
 
@@ -61,7 +83,7 @@ const experiences = [
   {
     title: "Digital Media Specialist (Intern)",
     place: "MileniaNews",
-    period: "2024 - Present",
+    period: "2024 – Present",
     details: [
       "Bertanggung jawab sebagai Content Planner, Editor, dan Camera Person.",
       "Berhasil memproduksi dan mendistribusikan lebih dari 2000 konten digital.",
@@ -72,8 +94,8 @@ const experiences = [
     place: "Gedung Bidakara, Jakarta",
     period: "2022",
     details: [
-      "Bertanggung jawab dalam melakukan instalasi, konfigurasi, dan pemeliharaan pada laptop atau pc karyawan.",
-      "Instalasi Sistem Operasi (Windows/Linux) dan perangkat lunak esensial sesuai standar kebutuhan perusahaan.",
+      "Instalasi, konfigurasi, dan pemeliharaan perangkat karyawan.",
+      "Instalasi Sistem Operasi dan perangkat lunak sesuai standar perusahaan.",
     ],
   },
   {
@@ -81,617 +103,576 @@ const experiences = [
     place: "Universitas Bina Sarana Informatika",
     period: "2025",
     details: [
-      "Mengimplementasikan sistem enkripsi untuk keamanan data medis pada platform web",
+      "Mengimplementasikan sistem enkripsi untuk keamanan data medis pada platform web.",
     ],
   },
 ];
 
-const techIcons = [
-  { name: "PHP", Icon: SiPhp, color: "#777BB4" },
-  { name: "Laravel", Icon: SiLaravel, color: "#FF2D20" },
-  { name: "PostgreSQL", Icon: SiPostgresql, color: "#4169E1" },
-  { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
-  { name: "Docker", Icon: SiDocker, color: "#2496ED" },
-  { name: "Python", Icon: SiPython, color: "#3776AB" },
-  { name: "TypeScript", Icon: SiTypescript, color: "#3178C6" },
-  { name: "Next.js", Icon: SiNextdotjs, color: "" }, // Leaves standard dark mode inherit text color
-  { name: "React", Icon: SiReact, color: "#61DAFB" },
-  { name: "Tailwind CSS", Icon: SiTailwindcss, color: "#06B6D4" },
-  { name: "GSAP", Icon: SiGreensock, color: "#88CE02" },
-  { name: "Figma", Icon: SiFigma, color: "#F24E1E" },
-  { name: "Video Editing", Icon: Video, color: "#FF0000" },
-  { name: "Camera Person", Icon: Camera, color: "#888888" },
-  { name: "Canva", Icon: SiCanva, color: "#00C4CC" },
+const techStack = {
+  Frontend: [
+    { name: "React", Icon: SiReact, color: "#61DAFB" },
+    { name: "Next.js", Icon: SiNextdotjs, color: "" },
+    { name: "TypeScript", Icon: SiTypescript, color: "#3178C6" },
+    { name: "Tailwind CSS", Icon: SiTailwindcss, color: "#06B6D4" },
+    { name: "GSAP", Icon: SiGreensock, color: "#88CE02" },
+  ],
+  Backend: [
+    { name: "PHP", Icon: SiPhp, color: "#777BB4" },
+    { name: "Laravel", Icon: SiLaravel, color: "#FF2D20" },
+    { name: "Python", Icon: SiPython, color: "#3776AB" },
+  ],
+  Database: [
+    { name: "PostgreSQL", Icon: SiPostgresql, color: "#4169E1" },
+    { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
+  ],
+  Tools: [
+    { name: "Docker", Icon: SiDocker, color: "#2496ED" },
+    { name: "Figma", Icon: SiFigma, color: "#F24E1E" },
+    { name: "Canva", Icon: SiCanva, color: "#00C4CC" },
+    { name: "Video Editing", Icon: Video, color: "#EF4444" },
+    { name: "Camera Person", Icon: Camera, color: "#737373" },
+  ],
+};
+
+const socialLinks = [
+  { href: "https://www.instagram.com/maulani.sudjatmiko", icon: SiInstagram, label: "Instagram" },
+  { href: "https://www.linkedin.com/in/ridho-maulana-073aaa386/", icon: SiLinkerd, label: "LinkedIn" },
+  { href: "https://wa.me/629818775467", icon: SiWhatsapp, label: "WhatsApp" },
+  { href: "https://github.com/ridhomaul", icon: SiGithub, label: "GitHub" },
 ];
+
+// ===== COMPONENT =====
 
 export default function Home() {
   const [introFinished, setIntroFinished] = useState(false);
-  const [isFlipped, setIsFlipped] = useState(false);
   const container = useRef<HTMLDivElement>(null);
-  
   const [reducedMotion, setReducedMotion] = useState(false);
-  
-  const [deckProjects, setDeckProjects] = useState(projects);
-  const [isAnimatingCards, setIsAnimatingCards] = useState(false);
 
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setReducedMotion(mediaQuery.matches);
-    
+
     const listener = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', listener);
-    return () => mediaQuery.removeEventListener('change', listener);
+    mediaQuery.addEventListener("change", listener);
+    return () => mediaQuery.removeEventListener("change", listener);
   }, []);
 
-  // Initialize Anime.js Micro-Interactions
+  // Anime.js Micro-Interactions
   useButtonInteraction(reducedMotion);
   useCardInteraction(reducedMotion);
   useCursorReflection(reducedMotion);
 
-  useGSAP(() => {
-    if (!introFinished) return;
+  // ===== GSAP ANIMATIONS =====
+  useGSAP(
+    () => {
+      if (!introFinished) return;
 
-    // --- HERO SECTION ANIMATION (CINEMATIC INTRO) ---
-    const heroTimeline = gsap.timeline({ defaults: { ease: "power4.out" } });
+      // Hero Reveal
+      const heroTl = gsap.timeline({ defaults: { ease: "power3.out", duration: 0.5 } });
+      heroTl
+        .fromTo(".hero-tag", { opacity: 0, y: 20 }, { opacity: 1, y: 0 })
+        .fromTo(".hero-title", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6 }, "-=0.3")
+        .fromTo(".hero-desc", { opacity: 0, y: 20 }, { opacity: 1, y: 0 }, "-=0.3")
+        .fromTo(".hero-cta", { opacity: 0, y: 20 }, { opacity: 1, y: 0 }, "-=0.2")
+        .fromTo(".hero-social", { opacity: 0 }, { opacity: 1, duration: 0.4 }, "-=0.1");
 
-    heroTimeline.fromTo(".hero-title-line",
-      { y: 80, opacity: 0, scale: 1.1 },
-      { y: 0, opacity: 1, scale: 1, duration: 1.2, stagger: 0.15 }
-    )
-    .fromTo(".hero-desc",
-      { opacity: 0, y: 20 },
-      { opacity: 1, y: 0, duration: 1 },
-      "-=0.9" // Delay ~0.3s after title starts
-    )
-    .fromTo(".hero-button",
-      { opacity: 0, scale: 0.9 },
-      { opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.7)" },
-      "-=0.6" // Delay ~0.6s after title starts
-    )
-    .fromTo(".hero-image",
-      { opacity: 0, scale: 0.8, rotate: -5 },
-      { opacity: 1, scale: 1, rotate: 0, duration: 1.5, ease: "expo.out" },
-      "-=1.2"
-    );
-
-    // Subtle parallax effect on scroll for Hero
-    gsap.to(".hero-image", {
-      yPercent: 20,
-      ease: "none",
-      scrollTrigger: {
-        trigger: "#home",
-        start: "top top",
-        end: "bottom top",
-        scrub: 1
-      }
-    });
-
-    // Floating effect for hero image
-    gsap.to(".hero-image", {
-      y: -15,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
-    });
-
-    // --- SCROLL PROGRESS INDICATOR ---
-    gsap.to(".scroll-progress-bar", {
-      scaleX: 1,
-      ease: "none",
-      scrollTrigger: {
-        scrub: 0.1,
-        start: "top top",
-        end: "bottom bottom"
-      }
-    });
-
-    // --- SCROLL ANIMATIONS ---
-    
-    // Big Transition Name Text
-    gsap.fromTo(".big-transition-text",
-      { opacity: 0, scale: 0.8, y: 50 },
-      {
-        opacity: 1, 
-        scale: 1, 
-        y: 0,
-        duration: 1.5,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: ".big-transition-text",
-          start: "top 85%",
-        }
-      }
-    );
-
-    // Sections Reveal
-    const sections = gsap.utils.toArray(".reveal-section") as HTMLElement[];
-    sections.forEach((sec) => {
-      gsap.fromTo(sec, 
-        { opacity: 0, y: 50 },
-        {
-          opacity: 1, 
-          y: 0,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: sec,
-            start: "top 85%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      );
-    });
-
-    // About Section Text Stagger Reveal
-    gsap.fromTo(".about-text-p",
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.2,
-        stagger: 0.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".about-text-container",
-          start: "top 80%"
-        }
-      }
-    );
-
-    // Profile Image Slide & Fade
-    gsap.fromTo(".about-image-container",
-      { opacity: 0, x: 100 },
-      {
-        opacity: 1,
-        x: 0,
-        duration: 1.2,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".about-image-container",
-          start: "top 85%",
-          scrub: 0.5 // Cinematic scrub
-        }
-      }
-    );
-
-    // Tech Stack Fade & Scale In
-    gsap.fromTo(".tech-stack-container", 
-      { opacity: 0, scale: 0.8 },
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: ".tech-stack-container",
-          start: "top 85%"
-        }
-      }
-    );
-
-    // Removed Horizontal Scroll Logic for Projects (Replaced by Stacked Cards)
-
-    // Experience Timeline Draw
-    gsap.fromTo(".timeline-line",
-      { height: 0 },
-      {
-        height: "100%",
+      // Scroll Progress Bar
+      gsap.to(".scroll-progress-bar", {
+        scaleX: 1,
         ease: "none",
-        scrollTrigger: {
-          trigger: ".experience-container",
-          start: "top center",
-          end: "bottom center",
-          scrub: true
-        }
-      }
-    );
+        scrollTrigger: { scrub: 0.1, start: "top top", end: "bottom bottom" },
+      });
 
-    // Experience Items Fade
-    const expItems = gsap.utils.toArray(".exp-item") as HTMLElement[];
-    expItems.forEach((item) => {
-      gsap.fromTo(item,
-        { opacity: 0, x: -30 },
+      // Generic Section Reveal
+      const sections = gsap.utils.toArray(".reveal-section") as HTMLElement[];
+      sections.forEach((sec) => {
+        gsap.fromTo(
+          sec,
+          { opacity: 0, y: 40 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: "power3.out",
+            scrollTrigger: { trigger: sec, start: "top 85%", toggleActions: "play none none reverse" },
+          }
+        );
+      });
+
+      // Project Cards Stagger
+      gsap.fromTo(
+        ".project-card",
+        { opacity: 0, y: 60 },
         {
           opacity: 1,
-          x: 0,
-          duration: 0.8,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: item,
-            start: "top 85%",
-          }
+          y: 0,
+          duration: 0.5,
+          stagger: 0.15,
+          ease: "power3.out",
+          scrollTrigger: { trigger: ".projects-container", start: "top 80%" },
         }
       );
-    });
 
-    // Contact Section Minimal Fade
-    gsap.fromTo("#contact > div",
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1.5,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: "#contact",
-          start: "top 85%"
+      // Tech Stack Items Stagger
+      gsap.fromTo(
+        ".tech-item",
+        { opacity: 0, scale: 0.9 },
+        {
+          opacity: 1,
+          scale: 1,
+          duration: 0.3,
+          stagger: 0.05,
+          ease: "power2.out",
+          scrollTrigger: { trigger: ".tech-container", start: "top 85%" },
         }
-      }
-    );
+      );
 
-  }, { scope: container, dependencies: [introFinished] });
-
-  // Handle Flip GSAP animation manually since we removed Framer Motion here
-  const flipContainer = useRef<HTMLDivElement>(null);
-  const handleFlip = () => {
-    setIsFlipped(!isFlipped);
-    gsap.to(flipContainer.current, {
-      rotateY: isFlipped ? 0 : 180,
-      duration: 0.8,
-      ease: "power3.inOut"
-    });
-  };
-
-  // Stacked Cards Logic
-  useEffect(() => {
-    deckProjects.forEach((project, relativeIndex) => {
-      const card = document.getElementById(`project-card-${project.title.replace(/\s+/g, '-')}`);
-      if (!card) return;
-      
-      gsap.to(card, {
-        y: relativeIndex * 35, // vertical stack offset
-        scale: 1 - (relativeIndex * 0.05),
-        opacity: relativeIndex < 3 ? 1 - (relativeIndex * 0.3) : 0,
-        zIndex: 50 - relativeIndex,
-        duration: 0.6,
-        ease: "power3.out",
-      });
-    });
-  }, [deckProjects]);
-
-  const handleNextCard = () => {
-    if (isAnimatingCards) return;
-    setIsAnimatingCards(true);
-
-    const topProject = deckProjects[0];
-    const topCard = document.getElementById(`project-card-${topProject.title.replace(/\s+/g, '-')}`);
-
-    if (topCard) {
-      // Fly out animation
-      gsap.to(topCard, {
-        x: window.innerWidth > 768 ? "120%" : "150%",
-        rotateZ: 25,
-        opacity: 0,
-        duration: 0.6,
-        ease: "power3.in",
-        onComplete: () => {
-          // Immediately reset x and rotation behind the scenes
-          gsap.set(topCard, { x: 0, rotateZ: 0 });
-          
-          // Update state to shift the array
-          setDeckProjects(prev => {
-            const newArr = [...prev];
-            const moved = newArr.shift();
-            if (moved) newArr.push(moved);
-            return newArr;
-          });
-          
-          setIsAnimatingCards(false);
+      // Experience Timeline Draw
+      gsap.fromTo(
+        ".timeline-line",
+        { height: 0 },
+        {
+          height: "100%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: ".experience-container",
+            start: "top center",
+            end: "bottom center",
+            scrub: true,
+          },
         }
+      );
+
+      // Experience Items Fade
+      const expItems = gsap.utils.toArray(".exp-item") as HTMLElement[];
+      expItems.forEach((item) => {
+        gsap.fromTo(
+          item,
+          { opacity: 0, x: -20 },
+          {
+            opacity: 1,
+            x: 0,
+            duration: 0.3,
+            ease: "power2.out",
+            scrollTrigger: { trigger: item, start: "top 85%" },
+          }
+        );
       });
-    }
-  };
+
+      // Contact Fade
+      gsap.fromTo(
+        "#contact > div",
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.5,
+          ease: "power2.out",
+          scrollTrigger: { trigger: "#contact", start: "top 85%" },
+        }
+      );
+    },
+    { scope: container, dependencies: [introFinished] }
+  );
 
   return (
     <>
       {!introFinished && <Preloader onComplete={() => setIntroFinished(true)} />}
-      <div className="scroll-progress-bar fixed top-0 left-0 h-1 bg-linear-to-r from-purple-600 to-blue-500 z-9999 origin-left scale-x-0 pointer-events-none" />
+
+      {/* Scroll Progress */}
+      <div className="scroll-progress-bar fixed top-0 left-0 h-[2px] bg-[var(--color-accent)] z-[9999] origin-left scale-x-0 pointer-events-none" />
+
       <div id="home" className="overflow-clip relative w-full" ref={container}>
         <main>
-        {/* --- HERO SECTION --- */}
-        <div className="relative w-full min-h-screen flex items-center z-10 bg-transparent">
-          <section className="mx-auto grid w-full max-w-7xl content-center items-center gap-12 px-6 pt-32 pb-40 lg:grid-cols-2 lg:gap-20 lg:pt-32">
-            <div className="flex flex-col">
-              <h1 className="font-heading text-5xl font-medium uppercase leading-[1.1] tracking-tight md:text-7xl text-[#1A1A1A] dark:text-white transition-colors overflow-hidden">
-                <div className="hero-title-line">Engineering robust web</div>
-                <div className="hero-title-line">& high impact media</div>
-                <div className="hero-title-line">strategies.</div>
-              </h1>
-              <p className="hero-desc mt-6 max-w-lg text-lg font-medium text-slate-600 dark:text-slate-400 transition-colors">
-                Focused on developing clean and scalable applications or websites, as well as managing high-impact digital media strategies.
-              </p>
-              <div className="hero-button mt-8 flex flex-wrap gap-4">
-                <a
-                  href="/CV-Ridho-Maulana.pdf"
-                  download="CV-Ridho-Maulana.pdf"
-                  className="anime-button group relative inline-flex items-center justify-center rounded-full bg-[#1A1A1A] dark:bg-white px-8 py-3.5 text-sm font-bold tracking-wider uppercase text-white dark:text-[#1A1A1A] transition-all hover:shadow-[0_0_20px_rgba(26,26,26,0.3)] dark:hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] overflow-hidden"
-                >
-                  <span className="relative z-10">DOWNLOAD CV</span>
-                  <div className="absolute inset-0 bg-linear-to-r from-transparent via-white/20 to-transparent dark:via-black/10 -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-                </a>
-              </div>
-            </div>
-
-            <div className="flex justify-end lg:justify-center cursor-pointer">
-              <div className="hero-image relative w-full max-w-md overflow-hidden rounded-2xl border border-white/20 dark:border-white/10 bg-white/40 dark:bg-black/20 p-2 shadow-[0_8px_32px_rgba(0,0,0,0.1)] backdrop-blur-xl transition-all duration-500 hover:shadow-2xl hover:shadow-purple-500/20">
-                <Image
-                  src="/profile1.png"
-                  alt="Refined digital visualization"
-                  width={640}
-                  height={640}
-                  priority
-                  className="w-full aspect-square object-cover grayscale transition-all duration-700 hover:grayscale-0 hover:scale-105 rounded-xl"
-                />
-              </div>
-            </div>
-          </section>
-        </div>
-
-        {/* --- MAIN CONTENT OVERLAY (Glassmorphism effect) --- */}
-        <div className="relative z-20 w-full bg-[#FAF8F5]/90 dark:bg-[#121212]/90 backdrop-blur-3xl transition-colors duration-300 rounded-t-[2.5rem] md:rounded-t-[4rem] shadow-[0_-20px_50px_rgba(0,0,0,0.05)] dark:shadow-[0_-20px_50px_rgba(0,0,0,0.4)] pb-24 border-t border-slate-200 dark:border-slate-800/50">
-
-          {/* TRANSITION TEXT: GIANT NAME */}
-          <div className="w-full flex justify-center pt-32 pb-8 px-6 overflow-hidden">
-             <h2 className="big-transition-text font-heading text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-medium text-center text-[#1A1A1A] dark:text-white leading-[1.1] tracking-tighter">
-                Hi, I&apos;m <br /> <span className="text-transparent bg-clip-text bg-linear-to-r from-purple-600 to-blue-500 dark:from-purple-400 dark:to-blue-400">Ridho Maulana.</span>
-             </h2>
-          </div>
-
-          {/* ABOUT ME SECTION */}
-          <section id="about" className="reveal-section mx-auto max-w-7xl px-6 py-16 flex flex-col items-center">
-            
-            {/* Profile Flip Animation */}
-            <div 
-              className="about-image-container relative z-10 w-full max-w-[280px] mb-8 cursor-pointer group"
-              onClick={handleFlip}
-              style={{ perspective: "1000px" }}
-            >
-              <div 
-                ref={flipContainer}
-                className="relative w-full h-full transform-style-3d" 
-                style={{ transformStyle: "preserve-3d" }}
-              >
-                {/* Sisi Depan */}
-                <div 
-                  className="rounded-full overflow-hidden border-[6px] border-white/50 dark:border-white/10 shadow-2xl backdrop-blur-sm transition-colors"
-                  style={{ backfaceVisibility: "hidden" }}
-                >
-                  <Image
-                    src="/profile1.png"
-                    alt="Digital Portrait Visual"
-                    width={400}
-                    height={400}
-                    className="w-full aspect-square object-cover grayscale group-hover:grayscale-0 transition-all duration-500 rounded-full p-1"
-                  />
-                </div>
-
-                {/* Sisi Belakang */}
-                <div 
-                  className="absolute inset-0 rounded-full overflow-hidden border-[6px] border-white/50 dark:border-white/10 shadow-2xl backdrop-blur-sm bg-white dark:bg-[#1A1A1A] flex items-center justify-center p-2"
-                  style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
-                >
-                  <Image
-                    src="/GIF1.gif"
-                    alt="Fun profile animation"
-                    width={400}
-                    height={400}
-                    className="w-full aspect-square object-cover rounded-full"
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Tech Stack Marquee */}
-            <div className="tech-stack-container w-[95vw] md:w-[70vw] relative z-10 overflow-hidden mx-auto pt-4 pb-10 mb-10 mask-image-[linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-              <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-8 text-center transition-colors">Technology Stack</p>
-              
-              <div className="animate-marquee gap-8 md:gap-12 pl-8 md:pl-12">
-                {[...techIcons, ...techIcons].map((tool, idx) => (
-                  <div key={idx} className="group relative flex flex-col items-center justify-center cursor-crosshair">
-                    <tool.Icon 
-                      className={`w-10 h-10 transition-all duration-300 group-hover:scale-110 ${!tool.color ? 'text-black dark:text-white' : ''}`} 
-                      style={tool.color ? { color: tool.color } : {}}
-                    />
-                    <span className="absolute -bottom-6 text-[10px] font-bold uppercase tracking-wider bg-white/90 dark:bg-black/90 text-black dark:text-white px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none shadow-xl border border-slate-200/50 dark:border-slate-800/50 backdrop-blur-sm z-20">
-                      {tool.name}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* About Text */}
-            <div className="about-text-container max-w-3xl text-center">
-              <p className="about-text-p font-medium text-lg md:text-xl text-slate-600 dark:text-slate-300 mb-7 transition-colors leading-relaxed">
-                As a Full-Stack Developer with strong roots in the digital media industry, I see software development as more than just lines of code. It is about creating an ecosystem that connects systems with people.
-              </p>
-              <div className="space-y-4 font-medium text-base md:text-lg text-slate-500 dark:text-slate-400 leading-relaxed transition-colors">
-                <p className="about-text-p">
-                  My specialization lies in designing robust backend architectures, primarily within the Laravel ecosystem, combined with clean and intuitive user interfaces.
+          {/* ===== HERO SECTION ===== */}
+          <section className="relative w-full min-h-screen flex items-center">
+            <div className="mx-auto w-full max-w-[1200px] px-6 md:px-12 pt-32 pb-24 lg:pt-40">
+              <div className="max-w-3xl">
+                <p className="hero-tag text-[var(--color-accent)] text-sm font-semibold tracking-widest uppercase mb-6">
+                  Full-Stack Developer & Media Specialist
                 </p>
-                <p className="about-text-p">
-                  This dual background allows me to see the bigger picture of a product. From leading the execution of thousands of pieces of content at MileniaNews to building the Milenner project governance platform from the ground up, I bring media sensitivity into programming logic to design solutions that are technically scalable and relevant to the audience.
+                <h1 className="hero-title font-[family-name:var(--font-geist)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] tracking-tight mb-6">
+                  Building clean, scalable
+                  <br />
+                  web solutions.
+                </h1>
+                <p className="hero-desc text-[var(--color-text-secondary)] text-lg md:text-xl leading-relaxed max-w-xl mb-10">
+                  Focused on developing robust applications and managing high-impact digital media strategies that connect systems with people.
                 </p>
-              </div>
-            </div>
 
-          </section>
-
-          {/* PROJECTS SECTION (Stacked Cards Click-to-Roll) */}
-          <div id="projects" className="projects-wrapper w-full min-h-screen flex flex-col xl:flex-row items-center justify-center gap-12 lg:gap-24 relative bg-[#FAF8F5]/90 dark:bg-[#121212]/90 border-t border-slate-200/50 dark:border-slate-800/50 px-6 py-24 md:py-32 overflow-hidden">
-            
-            {/* Intro Title */}
-            <div className="reveal-section flex flex-col justify-center w-full max-w-md xl:max-w-lg z-20">
-              <h2 className="font-heading text-5xl md:text-7xl font-medium uppercase text-[#1A1A1A] dark:text-white transition-colors leading-[1.1]">
-                Selected <br/> Projects
-              </h2>
-              <div className="mt-6 h-1 w-24 bg-linear-to-r from-purple-500 to-blue-500 rounded-full"></div>
-              <p className="mt-6 text-slate-600 dark:text-slate-400 font-medium text-lg">
-                A collection of digital solutions bridging engineering with media strategy.
-              </p>
-              <div className="mt-12 flex items-center gap-4 text-purple-600 dark:text-purple-400 font-bold text-sm tracking-widest uppercase opacity-80 cursor-pointer w-fit" onClick={handleNextCard}>
-                <span className="animate-pulse">Click card to cycle</span>
-                <div className="w-12 h-px bg-current"></div>
-                <span className="text-xl">↻</span>
-              </div>
-            </div>
-
-            {/* Stacked Cards Container */}
-            <div className="relative w-full max-w-2xl aspect-16/10 lg:aspect-video perspective-[1000px] z-10 mx-auto xl:mx-0">
-              {projects.map((project) => {
-                const isTop = deckProjects[0].title === project.title;
-                
-                return (
-                  <article 
-                    key={project.title} 
-                    id={`project-card-${project.title.replace(/\s+/g, '-')}`}
-                    onClick={() => isTop && handleNextCard()}
-                    className={`absolute top-0 left-0 w-full h-full flex flex-col group overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-white/50 dark:bg-[#1A1A1A]/50 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-slate-200/50 dark:border-white/10 ${isTop ? 'cursor-pointer hover:-translate-y-2 transition-transform duration-300' : 'pointer-events-none'}`}
-                    style={{ transformOrigin: "top center" }}
+                <div className="hero-cta flex flex-wrap items-center gap-4 mb-12">
+                  <a
+                    href="/CV-Ridho-Maulana.pdf"
+                    download="CV-Ridho-Maulana.pdf"
+                    className="anime-button group relative inline-flex items-center justify-center rounded-[var(--radius)] bg-[var(--color-text-primary)] px-8 py-3.5 text-sm font-semibold tracking-wide text-[var(--color-bg)] transition-all duration-200 hover:opacity-90 overflow-hidden"
                   >
-                    {/* Image Background */}
-                    <div className="absolute inset-0 w-full h-full overflow-hidden">
-                      <div className="absolute inset-0 bg-linear-to-t from-[#121212]/90 via-[#121212]/40 to-transparent z-10" />
+                    <span className="relative z-10">Download CV</span>
+                  </a>
+                  <a
+                    href="#contact"
+                    className="anime-button inline-flex items-center justify-center rounded-[var(--radius)] border border-[var(--color-border)] px-8 py-3.5 text-sm font-semibold tracking-wide transition-all duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+                  >
+                    Get in Touch
+                  </a>
+                </div>
+
+                <div className="hero-social flex items-center gap-5">
+                  {socialLinks.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={link.label}
+                      className="text-[var(--color-text-secondary)] hover:text-[var(--color-accent)] transition-colors duration-200"
+                    >
+                      <link.icon className="w-5 h-5" />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ===== FEATURED PROJECTS ===== */}
+          <section id="projects" className="py-24 md:py-32">
+            <div className="projects-container mx-auto max-w-[1200px] px-6 md:px-12">
+              <div className="reveal-section mb-16">
+                <p className="text-[var(--color-accent)] text-sm font-semibold tracking-widest uppercase mb-3">
+                  Portfolio
+                </p>
+                <h2 className="font-[family-name:var(--font-geist)] text-3xl md:text-4xl font-semibold">
+                  Featured Projects
+                </h2>
+              </div>
+
+              <div className="space-y-20 md:space-y-32">
+                {projects.map((project, idx) => (
+                  <article
+                    key={project.title}
+                    className="anime-card project-card group"
+                  >
+                    {/* Project Image */}
+                    <div className="relative w-full aspect-video md:aspect-[2.2/1] overflow-hidden rounded-[var(--radius)] bg-[var(--color-surface)] border border-[var(--color-border)] shadow-[var(--shadow-sm)] mb-8">
                       <Image
                         src={project.image}
                         alt={project.title}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.02]"
                       />
                     </div>
 
-                    {/* Content (Bottom Left) */}
-                    <div className="relative z-20 mt-auto p-6 md:p-10 flex flex-col items-start w-full">
-                      <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-4">
-                        <p className="text-purple-300 text-xs md:text-sm font-bold bg-purple-900/40 backdrop-blur-md px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-purple-500/30">
-                          {project.year}
+                    {/* Project Content */}
+                    <div className="grid gap-8 md:grid-cols-[1.5fr_1fr] md:gap-12">
+                      <div>
+                        <div className="flex items-center gap-3 mb-4">
+                          <span className="text-[var(--color-accent)] text-sm font-semibold">
+                            {project.year}
+                          </span>
+                          <span className="w-px h-4 bg-[var(--color-border)]" />
+                          <div className="flex flex-wrap gap-2">
+                            {project.tags.map((tag) => (
+                              <span
+                                key={tag}
+                                className="text-xs font-semibold text-[var(--color-text-secondary)] bg-[var(--color-surface)] border border-[var(--color-border)] px-3 py-1 rounded-[var(--radius-sm)]"
+                              >
+                                {tag}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <h3 className="font-[family-name:var(--font-geist)] text-2xl md:text-3xl font-semibold mb-3 group-hover:text-[var(--color-accent)] transition-colors duration-200">
+                          {project.title}
+                        </h3>
+                        <p className="text-[var(--color-text-secondary)] leading-relaxed mb-6">
+                          {project.description}
                         </p>
-                        <div className="flex flex-wrap gap-2 hidden sm:flex">
-                          {project.tags.slice(0, 3).map((tag) => (
-                            <span key={tag} className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-slate-200 bg-white/10 px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-md">
-                              {tag}
-                            </span>
-                          ))}
+
+                        {/* Links */}
+                        <div className="flex items-center gap-4">
+                          {project.demoUrl && (
+                            <a
+                              href={project.demoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="anime-button inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-accent)] hover:underline underline-offset-4"
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                              Live Demo
+                            </a>
+                          )}
+                          {project.repoUrl && (
+                            <a
+                              href={project.repoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] transition-colors duration-200"
+                            >
+                              <SiGithub className="w-4 h-4" />
+                              Repository
+                            </a>
+                          )}
                         </div>
                       </div>
-                      
-                      <h3 className="font-heading text-3xl md:text-5xl font-medium text-white mb-2 md:mb-4 drop-shadow-lg leading-tight">
-                        {project.title}
-                      </h3>
-                      
-                      <p className="text-slate-300 font-medium text-xs md:text-base max-w-xl line-clamp-2 md:line-clamp-3 mb-6 drop-shadow-md">
-                        {project.description}
-                      </p>
-                      
-                      {/* Separate the action from the card click since clicking card cycles. This link should stop propagation if clicked */}
-                      <a 
-                        href="#contact" 
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center justify-center gap-3 text-xs md:text-sm font-bold uppercase tracking-widest text-white hover:text-purple-300 transition-colors w-fit group/btn bg-white/10 hover:bg-white/20 backdrop-blur-md pl-5 pr-2 py-2 rounded-full border border-white/20"
-                      >
-                        View Case Study
-                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white text-black flex items-center justify-center transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:-rotate-45">
-                          →
+
+                      {/* Contribution & Challenge */}
+                      <div className="space-y-6">
+                        <div>
+                          <p className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-2">
+                            Contribution
+                          </p>
+                          <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+                            {project.contribution}
+                          </p>
                         </div>
-                      </a>
+                        <div>
+                          <p className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-2">
+                            Challenge
+                          </p>
+                          <p className="text-sm text-[var(--color-text-secondary)] leading-relaxed">
+                            {project.challenge}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </article>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* EXPERIENCE SECTION */}
-          <section id="experience" className="reveal-section mx-auto max-w-7xl px-6 py-24 border-t border-slate-200/50 dark:border-slate-800/50 transition-colors">
-            <h2 className="font-heading text-4xl font-medium uppercase text-[#1A1A1A] dark:text-white mb-16 transition-colors text-center">Experience</h2>
-            
-            <div className="experience-container relative max-w-4xl mx-auto">
-              {/* Central Timeline Line (Desktop) */}
-              <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-slate-200 dark:bg-slate-800 transform md:-translate-x-1/2">
-                <div className="timeline-line w-full bg-linear-to-b from-purple-500 to-blue-500 origin-top"></div>
+                ))}
               </div>
+            </div>
+          </section>
 
-              <div className="space-y-12">
-                {experiences.map((item, idx) => (
-                  <div key={item.title} className={`exp-item relative flex flex-col md:flex-row gap-8 items-start md:items-center ${idx % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
-                    
-                    {/* Timeline Node */}
-                    <div className="absolute left-[-5px] md:left-1/2 top-2 md:top-1/2 w-3 h-3 rounded-full bg-white dark:bg-[#121212] border-2 border-purple-500 transform md:-translate-x-1/2 md:-translate-y-1/2 z-10 shadow-[0_0_10px_rgba(168,85,247,0.5)]"></div>
-                    
-                    {/* Content Box */}
-                    <div className={`w-full md:w-1/2 pl-6 md:pl-0 ${idx % 2 === 0 ? 'md:pl-12 text-left' : 'md:pr-12 md:text-right'}`}>
-                      <div className="bg-white/40 dark:bg-black/20 backdrop-blur-md border border-slate-200/50 dark:border-slate-800/50 p-6 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-purple-500/5 transition-all duration-300">
-                        <p className="text-xl font-bold text-[#1A1A1A] dark:text-white leading-tight transition-colors mb-2">{item.title}</p>
-                        <p className="font-semibold text-sm text-purple-600 dark:text-purple-400 mb-1">{item.place}</p>
-                        <p className="text-xs font-bold text-slate-400 dark:text-slate-500 mb-4">{item.period}</p>
-                        <ul className={`list-none space-y-2 text-sm font-medium text-slate-600 dark:text-slate-400 transition-colors ${idx % 2 === 0 ? 'text-left' : 'md:text-right text-left'}`}>
+          {/* ===== ABOUT SECTION ===== */}
+          <section id="about" className="py-24 md:py-32 border-t border-[var(--color-border)]">
+            <div className="reveal-section mx-auto max-w-[1200px] px-6 md:px-12">
+              <div className="grid gap-12 md:gap-16 lg:grid-cols-[1fr_1.2fr] items-center">
+                {/* Profile Image */}
+                <div className="relative w-full max-w-md mx-auto lg:mx-0">
+                  <div className="overflow-hidden rounded-[var(--radius)] shadow-[var(--shadow-md)]">
+                    <Image
+                      src="/profile1.png"
+                      alt="Ridho Maulana"
+                      width={500}
+                      height={500}
+                      className="w-full aspect-square object-cover"
+                    />
+                  </div>
+                </div>
+
+                {/* About Text */}
+                <div>
+                  <p className="text-[var(--color-accent)] text-sm font-semibold tracking-widest uppercase mb-3">
+                    About
+                  </p>
+                  <h2 className="font-[family-name:var(--font-geist)] text-3xl md:text-4xl font-semibold mb-8">
+                    A developer who thinks
+                    <br />
+                    like a media strategist.
+                  </h2>
+
+                  <div className="space-y-5 text-[var(--color-text-secondary)] leading-relaxed">
+                    <p>
+                      As a Full-Stack Developer with strong roots in the digital media industry, I see software development as more than just lines of code. It&apos;s about creating an ecosystem that connects systems with people.
+                    </p>
+                    <p>
+                      My specialization lies in designing robust backend architectures, primarily within the Laravel ecosystem, combined with clean and intuitive user interfaces.
+                    </p>
+                    <p>
+                      From leading the execution of thousands of pieces of content at MileniaNews to building the Milenner project governance platform from the ground up, I bring media sensitivity into programming logic to design solutions that are technically scalable and relevant to the audience.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          {/* ===== TECH STACK SECTION ===== */}
+          <section className="py-24 md:py-32 border-t border-[var(--color-border)]">
+            <div className="tech-container reveal-section mx-auto max-w-[1200px] px-6 md:px-12">
+              <p className="text-[var(--color-accent)] text-sm font-semibold tracking-widest uppercase mb-3">
+                Skills
+              </p>
+              <h2 className="font-[family-name:var(--font-geist)] text-3xl md:text-4xl font-semibold mb-16">
+                Tech Stack
+              </h2>
+
+              <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
+                {Object.entries(techStack).map(([category, items]) => (
+                  <div key={category}>
+                    <h3 className="text-xs font-semibold tracking-widest uppercase text-[var(--color-text-secondary)] mb-6">
+                      {category}
+                    </h3>
+                    <div className="space-y-4">
+                      {items.map((tool) => (
+                        <div
+                          key={tool.name}
+                          className="tech-item flex items-center gap-3 group"
+                        >
+                          <tool.Icon
+                            className={`w-5 h-5 transition-colors duration-200 ${!tool.color ? "text-[var(--color-text-primary)]" : ""}`}
+                            style={tool.color ? { color: tool.color } : {}}
+                          />
+                          <span className="text-sm font-medium text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors duration-200">
+                            {tool.name}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          {/* ===== EXPERIENCE SECTION ===== */}
+          <section id="experience" className="py-24 md:py-32 border-t border-[var(--color-border)]">
+            <div className="reveal-section mx-auto max-w-[1200px] px-6 md:px-12">
+              <p className="text-[var(--color-accent)] text-sm font-semibold tracking-widest uppercase mb-3">
+                Career
+              </p>
+              <h2 className="font-[family-name:var(--font-geist)] text-3xl md:text-4xl font-semibold mb-16">
+                Experience
+              </h2>
+
+              <div className="experience-container relative max-w-3xl mx-auto">
+                {/* Timeline Line */}
+                <div className="absolute left-0 md:left-6 top-0 bottom-0 w-px bg-[var(--color-border)]">
+                  <div className="timeline-line w-full bg-[var(--color-accent)] origin-top" />
+                </div>
+
+                <div className="space-y-10">
+                  {experiences.map((item) => (
+                    <div
+                      key={item.title}
+                      className="exp-item relative pl-8 md:pl-16"
+                    >
+                      {/* Timeline Node */}
+                      <div className="absolute left-[-4px] md:left-[20px] top-1.5 w-[9px] h-[9px] rounded-full bg-[var(--color-bg)] border-2 border-[var(--color-accent)] z-10" />
+
+                      <div className="bg-[var(--color-surface)] border border-[var(--color-border)] rounded-[var(--radius)] p-6 shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)] transition-shadow duration-200">
+                        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-3">
+                          <h3 className="font-[family-name:var(--font-geist)] text-lg font-semibold">
+                            {item.title}
+                          </h3>
+                          <span className="text-xs font-semibold text-[var(--color-accent)]">
+                            {item.period}
+                          </span>
+                        </div>
+                        <p className="text-sm font-medium text-[var(--color-text-secondary)] mb-4">
+                          {item.place}
+                        </p>
+                        <ul className="space-y-2">
                           {item.details.map((detail, dIdx) => (
-                            <li key={dIdx} className="relative">
-                              <span className="md:hidden absolute -left-4 top-1.5 w-1.5 h-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></span>
+                            <li
+                              key={dIdx}
+                              className="flex items-start gap-2 text-sm text-[var(--color-text-secondary)] leading-relaxed"
+                            >
+                              <span className="mt-2 w-1 h-1 rounded-full bg-[var(--color-accent)] flex-shrink-0" />
                               {detail}
                             </li>
                           ))}
                         </ul>
                       </div>
                     </div>
-
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             </div>
           </section>
 
-          {/* CONTACT SECTION */}
-          <section id="contact" className="reveal-section mx-auto max-w-7xl px-6 py-32 border-t border-slate-200/50 dark:border-slate-800/50 transition-colors">
-            <div className="bg-linear-to-br from-white/60 to-white/10 dark:from-[#1A1A1A]/60 dark:to-[#1A1A1A]/10 backdrop-blur-xl border border-white/20 dark:border-white/10 rounded-3xl p-10 md:p-16 shadow-2xl">
-              <h2 className="font-heading text-5xl md:text-6xl font-medium text-[#1A1A1A] dark:text-white mb-8 transition-colors text-center md:text-left">Let&apos;s Connect.</h2>
-              <div className="grid gap-12 md:grid-cols-[1fr_1.5fr] items-center">
-                <p className="font-medium text-lg text-slate-600 dark:text-slate-400 leading-relaxed transition-colors text-center md:text-left">
-                  Interested in discussing web code architecture, platform collaboration, or simply exchanging ideas? Let’s start a conversation.
+          {/* ===== CONTACT SECTION ===== */}
+          <section id="contact" className="py-24 md:py-32 border-t border-[var(--color-border)]">
+            <div className="mx-auto max-w-[1200px] px-6 md:px-12">
+              <div className="max-w-2xl mx-auto text-center">
+                <p className="text-[var(--color-accent)] text-sm font-semibold tracking-widest uppercase mb-3">
+                  Contact
                 </p>
-                <form className="grid gap-5" aria-label="Form kontak portofolio" onSubmit={(e) => e.preventDefault()}>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <input name="name" type="text" placeholder="Name" className="p-4 border border-slate-200/50 dark:border-slate-700/50 bg-white/50 dark:bg-[#121212]/50 backdrop-blur-sm dark:text-white rounded-xl text-sm font-medium transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
-                    <input name="email" type="email" placeholder="Email" className="p-4 border border-slate-200/50 dark:border-slate-700/50 bg-white/50 dark:bg-[#121212]/50 backdrop-blur-sm dark:text-white rounded-xl text-sm font-medium transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent" />
+                <h2 className="font-[family-name:var(--font-geist)] text-3xl md:text-5xl font-semibold mb-6">
+                  Let&apos;s build something together.
+                </h2>
+                <p className="text-[var(--color-text-secondary)] text-lg leading-relaxed mb-10">
+                  Interested in discussing web architecture, platform collaboration, or simply exchanging ideas? Let&apos;s start a conversation.
+                </p>
+
+                <div className="flex flex-wrap items-center justify-center gap-6 mb-12">
+                  <a
+                    href="mailto:ridho@example.com"
+                    className="anime-button inline-flex items-center gap-2 rounded-[var(--radius)] bg-[var(--color-accent)] text-white px-8 py-3.5 text-sm font-semibold transition-all duration-200 hover:opacity-90"
+                  >
+                    <ArrowUpRight className="w-4 h-4" />
+                    Send Email
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/ridho-maulana-073aaa386/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="anime-button inline-flex items-center gap-2 rounded-[var(--radius)] border border-[var(--color-border)] px-8 py-3.5 text-sm font-semibold transition-all duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+                  >
+                    <SiLinkerd className="w-4 h-4" />
+                    LinkedIn
+                  </a>
+                  <a
+                    href="https://github.com/ridhomaul"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="anime-button inline-flex items-center gap-2 rounded-[var(--radius)] border border-[var(--color-border)] px-8 py-3.5 text-sm font-semibold transition-all duration-200 hover:border-[var(--color-accent)] hover:text-[var(--color-accent)]"
+                  >
+                    <SiGithub className="w-4 h-4" />
+                    GitHub
+                  </a>
+                </div>
+
+                {/* Optional Contact Form */}
+                <form
+                  className="grid gap-4 max-w-lg mx-auto text-left"
+                  aria-label="Contact form"
+                  onSubmit={(e) => e.preventDefault()}
+                >
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <input
+                      name="name"
+                      type="text"
+                      placeholder="Name"
+                      className="p-4 border border-[var(--color-border)] bg-[var(--color-surface)] rounded-[var(--radius)] text-sm font-medium transition-colors duration-200"
+                    />
+                    <input
+                      name="email"
+                      type="email"
+                      placeholder="Email"
+                      className="p-4 border border-[var(--color-border)] bg-[var(--color-surface)] rounded-[var(--radius)] text-sm font-medium transition-colors duration-200"
+                    />
                   </div>
-                  <textarea name="message" rows={5} placeholder="Message" className="p-4 border border-slate-200/50 dark:border-slate-700/50 bg-white/50 dark:bg-[#121212]/50 backdrop-blur-sm dark:text-white rounded-xl text-sm font-medium transition-all focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none" />
+                  <textarea
+                    name="message"
+                    rows={5}
+                    placeholder="Message"
+                    className="p-4 border border-[var(--color-border)] bg-[var(--color-surface)] rounded-[var(--radius)] text-sm font-medium transition-colors duration-200 resize-none"
+                  />
                   <button
                     type="submit"
-                    className="anime-button group relative overflow-hidden rounded-xl bg-linear-to-r from-purple-600 to-blue-600 text-white px-12 py-4 text-sm font-bold uppercase tracking-widest transition-all hover:shadow-[0_0_20px_rgba(168,85,247,0.4)] w-full md:w-fit cursor-pointer mt-2"
+                    className="anime-button group relative overflow-hidden rounded-[var(--radius)] bg-[var(--color-text-primary)] text-[var(--color-bg)] px-8 py-3.5 text-sm font-semibold transition-all duration-200 hover:opacity-90 w-full sm:w-fit cursor-pointer"
                   >
-                    <span className="relative z-10">SEND MESSAGE</span>
-                    <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                    Send Message
                   </button>
                 </form>
               </div>
             </div>
           </section>
 
-          {/* FOOTER SECTION */}
-          <footer className="mx-auto max-w-7xl px-6 py-8 transition-colors">
-            <div className="flex flex-col justify-center items-center gap-6">
-              <div className="flex items-center gap-8">
-                <a href="https://www.instagram.com/maulani.sudjatmiko" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-purple-500 hover:scale-125 transition-all duration-300">
-                  <SiInstagram className="w-5 h-5" />
-                </a>
-                <a href="https://wa.me/629818775467" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-green-500 hover:scale-125 transition-all duration-300">
-                  <SiWhatsapp className="w-5 h-5" />
-                </a>
-                <a href="https://www.linkedin.com/in/ridho-maulana-073aaa386/" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-blue-500 hover:scale-125 transition-all duration-300">
-                  <SiLinkerd className="w-5 h-5" />
-                </a>
-                <a href="https://x.com/mekibelang" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-[#1A1A1A] dark:hover:text-white hover:scale-125 transition-all duration-300">
-                  <SiX className="w-4 h-4" />
-                </a>
-              </div>
-              <p className="text-xs font-semibold text-slate-400 tracking-wider">© 2026 RIDHO MAULANA. ALL RIGHTS RESERVED.</p>
+          {/* ===== FOOTER ===== */}
+          <footer className="py-8 border-t border-[var(--color-border)]">
+            <div className="mx-auto max-w-[1200px] px-6 md:px-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <p className="text-xs font-medium text-[var(--color-text-secondary)]">
+                © 2026 Ridho Maulana. All rights reserved.
+              </p>
+              <p className="text-xs font-medium text-[var(--color-text-secondary)]">
+                Built with Next.js, GSAP & Anime.js
+              </p>
             </div>
           </footer>
-        </div>
-      </main>
-    </div>
+        </main>
+      </div>
     </>
   );
 }

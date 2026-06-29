@@ -77,13 +77,13 @@ export default function Preloader({ onComplete }: PreloaderProps) {
       className="fixed inset-0 z-999 flex flex-col items-center justify-center bg-[#0a0a0a] text-white"
     >
       {/* Background ambient glow */}
-      <div className="absolute inset-0 z-0" style={{ backgroundImage: "radial-gradient(ellipse at center, rgba(88, 28, 135, 0.15) 0%, #0a0a0a 70%, #0a0a0a 100%)" }}></div>
+      <div className="absolute inset-0 z-0" style={{ backgroundImage: "radial-gradient(ellipse at center, rgba(124, 58, 237, 0.15) 0%, #0a0a0a 70%, #0a0a0a 100%)" }}></div>
       
       <div className="relative z-10 flex flex-col items-center gap-12">
         {/* Animated Text */}
         <div 
           ref={textRef} 
-          className="flex text-3xl md:text-5xl lg:text-7xl font-heading tracking-[0.3em] font-medium uppercase overflow-hidden"
+          className="flex text-3xl md:text-5xl lg:text-7xl font-[family-name:var(--font-geist)] tracking-[0.3em] font-semibold uppercase overflow-hidden"
           style={{ perspective: "1000px" }}
         >
           {introText.split("").map((char, index) => (
@@ -100,7 +100,7 @@ export default function Preloader({ onComplete }: PreloaderProps) {
         <div className="flex items-center gap-6">
           <div className="w-48 md:w-64 h-[2px] bg-white/10 relative overflow-hidden rounded-full">
             <div 
-              className="absolute inset-y-0 left-0 bg-linear-to-r from-purple-500 to-blue-500 rounded-full" 
+              className="absolute inset-y-0 left-0 bg-[var(--color-accent)] rounded-full" 
               style={{ width: `${progress}%`, transition: 'width 0.05s linear' }}
             />
           </div>

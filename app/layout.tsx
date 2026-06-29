@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { Inter, Baskervville } from "next/font/google";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/components/Navbar";
-import { ThemeProvider } from "@/app/components/ThemeProvider"; // Import Provider kita
+import { ThemeProvider } from "@/app/components/ThemeProvider";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const baskervville = Baskervville({ variable: "--font-baskervville", subsets: ["latin"], weight: ["400"] });
+const outfit = Outfit({ variable: "--font-geist", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Ridho Maulana | Full Stack Developer & Media Specialist",
-  description: "Portofolio personal untuk Full Stack Developer, fokus pada solusi web yang elegan.",
+  title: "Ridho Maulana | Full-Stack Developer & Media Specialist",
+  description:
+    "Personal portfolio of Ridho Maulana — Full-Stack Developer focused on building clean, scalable web applications and high-impact digital media strategies.",
 };
 
 export default function RootLayout({
@@ -18,18 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // SuppressHydrationWarning diperlukan oleh next-themes di tag html
-    <html lang="id" className={`${inter.variable} ${baskervville.variable} h-full scroll-smooth antialiased`} suppressHydrationWarning>
-      {/* Tambahkan dark:bg-[#121212] dan dark:text-white agar background otomatis hitam saat dark mode */}
-      <body className="min-h-full flex flex-col bg-[#FAF8F5] text-[#1A1A1A] dark:bg-[#121212] dark:text-slate-100 font-sans relative transition-colors duration-300">
+    <html
+      lang="id"
+      className={`${inter.variable} ${outfit.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
+      <body className="min-h-full flex flex-col font-sans relative transition-colors duration-300">
         <ThemeProvider>
-          {/* Gradient Blobs untuk Latar Belakang */}
-          <div className="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
-            <div className="absolute top-[-10%] left-[-10%] w-160 h-160 rounded-full bg-[#5a00cf]/10 dark:bg-[#5a00cf]/20 blur-[120px]" />
-            <div className="absolute top-[20%] right-[-5%] w-120 h-120 rounded-full bg-blue-400/10 dark:bg-blue-600/20 blur-[100px]" />
-            <div className="absolute bottom-[-10%] left-[20%] w-140 h-140 rounded-full bg-emerald-400/10 dark:bg-emerald-600/10 blur-[120px]" />
-          </div>
-
           <Navbar />
           {children}
         </ThemeProvider>
