@@ -490,9 +490,6 @@ export default function Home() {
           {/* ===== TECH STACK SECTION ===== */}
           <section className="py-24 md:py-32 border-t border-[var(--color-border)]">
             <div className="tech-container reveal-section mx-auto max-w-[1200px] px-6 md:px-12 mb-12">
-              <p className="text-[var(--color-accent)] text-sm font-semibold tracking-widest uppercase mb-3">
-                Skills
-              </p>
               <h2 className="font-[family-name:var(--font-geist)] text-3xl md:text-4xl font-semibold">
                 Tech Stack
               </h2>
