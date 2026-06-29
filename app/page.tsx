@@ -13,6 +13,7 @@ import {
 import { Video, Camera, ExternalLink, ArrowUpRight } from "lucide-react";
 import Preloader from "./components/Preloader";
 import ProjectStack from "./components/ProjectStack";
+import DeveloperBadge from "./components/DeveloperBadge";
 
 // Anime.js Micro-Interaction Hooks
 import { useButtonInteraction } from "./hooks/useButtonInteraction";
@@ -289,8 +290,8 @@ export default function Home() {
         <main>
           {/* ===== HERO SECTION ===== */}
           <section className="relative w-full min-h-screen flex items-center">
-            <div className="mx-auto w-full max-w-[1200px] px-6 md:px-12 pt-32 pb-24 lg:pt-40">
-              <div className="max-w-3xl">
+            <div className="mx-auto w-full max-w-[1200px] px-6 md:px-12 pt-32 pb-24 lg:pt-40 relative flex justify-between items-center">
+              <div className="max-w-3xl relative z-10">
                 <h1 className="hero-title font-(family-name:--font-geist) text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] tracking-tight mb-6">
                   Building clean, scalable
                   <br />
@@ -330,6 +331,13 @@ export default function Home() {
                     </a>
                   ))}
                 </div>
+              </div>
+
+              {/* Interactive Developer Badge (Hidden on Mobile) */}
+              <div className="hidden lg:flex absolute right-6 xl:right-12 top-0 h-full items-start pointer-events-none z-20 pt-16">
+                 <div className="pointer-events-auto">
+                   <DeveloperBadge />
+                 </div>
               </div>
             </div>
           </section>
