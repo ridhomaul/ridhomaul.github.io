@@ -504,14 +504,12 @@ export default function Home() {
                   <div
                     key={`top-${tool.name}-${idx}`}
                     className="tech-item flex items-center gap-3 flex-shrink-0 group cursor-default"
+                    title={tool.name}
                   >
                     <tool.Icon
-                      className={`w-6 h-6 md:w-7 md:h-7 transition-transform duration-200 group-hover:scale-110 ${!tool.color ? "text-[var(--color-text-primary)]" : ""}`}
+                      className={`w-12 h-12 md:w-16 md:h-16 transition-transform duration-200 group-hover:scale-110 ${!tool.color ? "text-[var(--color-text-primary)]" : ""}`}
                       style={tool.color ? { color: tool.color } : {}}
                     />
-                    <span className="text-sm font-medium text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors duration-200 whitespace-nowrap">
-                      {tool.name}
-                    </span>
                   </div>
                 ))}
               </div>
@@ -522,14 +520,12 @@ export default function Home() {
                   <div
                     key={`bottom-${tool.name}-${idx}`}
                     className="tech-item flex items-center gap-3 flex-shrink-0 group cursor-default"
+                    title={tool.name}
                   >
                     <tool.Icon
-                      className={`w-6 h-6 md:w-7 md:h-7 transition-transform duration-200 group-hover:scale-110 ${!tool.color ? "text-[var(--color-text-primary)]" : ""}`}
+                      className={`w-12 h-12 md:w-16 md:h-16 transition-transform duration-200 group-hover:scale-110 ${!tool.color ? "text-[var(--color-text-primary)]" : ""}`}
                       style={tool.color ? { color: tool.color } : {}}
                     />
-                    <span className="text-sm font-medium text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] transition-colors duration-200 whitespace-nowrap">
-                      {tool.name}
-                    </span>
                   </div>
                 ))}
               </div>
