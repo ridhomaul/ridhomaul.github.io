@@ -110,6 +110,9 @@ export default function Home() {
   const container = useRef<HTMLDivElement>(null);
   
   const [reducedMotion, setReducedMotion] = useState(false);
+  
+  const [deckProjects, setDeckProjects] = useState(projects);
+  const [isAnimatingCards, setIsAnimatingCards] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -268,25 +271,7 @@ export default function Home() {
       }
     );
 
-    // Horizontal Scroll (Projects Cinematic Showcase)
-    const projectsTrack = document.querySelector('.projects-track') as HTMLElement;
-    
-    if (projectsTrack) {
-      const getScrollAmount = () => -(projectsTrack.scrollWidth - window.innerWidth);
-      
-      gsap.to(projectsTrack, {
-        x: getScrollAmount,
-        ease: "none",
-        scrollTrigger: {
-          trigger: ".projects-wrapper",
-          start: "top top",
-          end: () => `+=${-(projectsTrack.scrollWidth - window.innerWidth)}`,
-          pin: true,
-          scrub: 1,
-          invalidateOnRefresh: true,
-        }
-      });
-    }
+    // Removed Horizontal Scroll Logic for Projects (Replaced by Stacked Cards)
 
     // Experience Timeline Draw
     gsap.fromTo(".timeline-line",
@@ -347,6 +332,56 @@ export default function Home() {
       duration: 0.8,
       ease: "power3.inOut"
     });
+  };
+
+  // Stacked Cards Logic
+  useEffect(() => {
+    deckProjects.forEach((project, relativeIndex) => {
+      const card = document.getElementById(`project-card-${project.title.replace(/\s+/g, '-')}`);
+      if (!card) return;
+      
+      gsap.to(card, {
+        y: relativeIndex * 35, // vertical stack offset
+        scale: 1 - (relativeIndex * 0.05),
+        opacity: relativeIndex < 3 ? 1 - (relativeIndex * 0.3) : 0,
+        zIndex: 50 - relativeIndex,
+        duration: 0.6,
+        ease: "power3.out",
+      });
+    });
+  }, [deckProjects]);
+
+  const handleNextCard = () => {
+    if (isAnimatingCards) return;
+    setIsAnimatingCards(true);
+
+    const topProject = deckProjects[0];
+    const topCard = document.getElementById(`project-card-${topProject.title.replace(/\s+/g, '-')}`);
+
+    if (topCard) {
+      // Fly out animation
+      gsap.to(topCard, {
+        x: window.innerWidth > 768 ? "120%" : "150%",
+        rotateZ: 25,
+        opacity: 0,
+        duration: 0.6,
+        ease: "power3.in",
+        onComplete: () => {
+          // Immediately reset x and rotation behind the scenes
+          gsap.set(topCard, { x: 0, rotateZ: 0 });
+          
+          // Update state to shift the array
+          setDeckProjects(prev => {
+            const newArr = [...prev];
+            const moved = newArr.shift();
+            if (moved) newArr.push(moved);
+            return newArr;
+          });
+          
+          setIsAnimatingCards(false);
+        }
+      });
+    }
   };
 
   return (
@@ -484,73 +519,87 @@ export default function Home() {
 
           </section>
 
-          {/* PROJECTS SECTION (Cinematic Horizontal Scroll) */}
-          <div id="projects" className="projects-wrapper w-full h-screen relative overflow-hidden bg-[#FAF8F5]/90 dark:bg-[#121212]/90 border-t border-slate-200/50 dark:border-slate-800/50">
-            <div className="projects-track flex h-full items-center pl-6 md:pl-20 pr-[50vw]">
-              
-              {/* Intro Title Card */}
-              <div className="reveal-section flex-shrink-0 w-[80vw] md:w-[40vw] flex flex-col justify-center mr-16">
-                <h2 className="font-heading text-5xl md:text-7xl font-medium uppercase text-[#1A1A1A] dark:text-white transition-colors leading-[1.1]">
-                  Selected <br/> Projects
-                </h2>
-                <div className="mt-6 h-1 w-24 bg-linear-to-r from-purple-500 to-blue-500 rounded-full"></div>
-                <p className="mt-6 text-slate-600 dark:text-slate-400 font-medium text-lg max-w-sm">
-                  A collection of digital solutions bridging engineering with media strategy.
-                </p>
-                <div className="mt-12 flex items-center gap-4 text-purple-600 dark:text-purple-400 font-bold text-sm tracking-widest uppercase opacity-70">
-                  <span className="animate-pulse">Scroll to explore</span>
-                  <div className="w-12 h-px bg-current"></div>
-                  <span className="text-xl">→</span>
-                </div>
+          {/* PROJECTS SECTION (Stacked Cards Click-to-Roll) */}
+          <div id="projects" className="projects-wrapper w-full min-h-screen flex flex-col xl:flex-row items-center justify-center gap-12 lg:gap-24 relative bg-[#FAF8F5]/90 dark:bg-[#121212]/90 border-t border-slate-200/50 dark:border-slate-800/50 px-6 py-24 md:py-32 overflow-hidden">
+            
+            {/* Intro Title */}
+            <div className="reveal-section flex flex-col justify-center w-full max-w-md xl:max-w-lg z-20">
+              <h2 className="font-heading text-5xl md:text-7xl font-medium uppercase text-[#1A1A1A] dark:text-white transition-colors leading-[1.1]">
+                Selected <br/> Projects
+              </h2>
+              <div className="mt-6 h-1 w-24 bg-linear-to-r from-purple-500 to-blue-500 rounded-full"></div>
+              <p className="mt-6 text-slate-600 dark:text-slate-400 font-medium text-lg">
+                A collection of digital solutions bridging engineering with media strategy.
+              </p>
+              <div className="mt-12 flex items-center gap-4 text-purple-600 dark:text-purple-400 font-bold text-sm tracking-widest uppercase opacity-80 cursor-pointer w-fit" onClick={handleNextCard}>
+                <span className="animate-pulse">Click card to cycle</span>
+                <div className="w-12 h-px bg-current"></div>
+                <span className="text-xl">↻</span>
               </div>
+            </div>
 
-              {/* Project Cards */}
-              {projects.map((project) => (
-                <article key={project.title} className="anime-card project-card flex-shrink-0 w-[85vw] md:w-[65vw] lg:w-[50vw] h-[70vh] mr-8 md:mr-16 flex flex-col group cursor-pointer relative overflow-hidden rounded-[2.5rem] bg-white/50 dark:bg-[#1A1A1A]/50 backdrop-blur-md shadow-[0_0_40px_rgba(0,0,0,0.1)] dark:shadow-[0_0_40px_rgba(0,0,0,0.3)] border border-white/20 dark:border-white/10 transition-all duration-300">
-                  
-                  {/* Image Background */}
-                  <div className="absolute inset-0 w-full h-full overflow-hidden">
-                    <div className="absolute inset-0 bg-linear-to-t from-[#121212] via-[#121212]/50 to-transparent z-10" />
-                    <Image
-                      src={project.image}
-                      alt={project.title}
-                      fill
-                      className="object-cover transition-transform duration-1000 group-hover:scale-[1.03]"
-                    />
-                  </div>
-
-                  {/* Content (Bottom Left) */}
-                  <div className="relative z-20 mt-auto p-8 md:p-12 flex flex-col items-start w-full">
-                    <div className="flex flex-wrap items-center gap-3 mb-6">
-                      <p className="text-purple-300 text-xs md:text-sm font-bold bg-purple-900/40 backdrop-blur-md px-4 py-1.5 rounded-full border border-purple-500/30">
-                        {project.year}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {project.tags.slice(0, 3).map((tag) => (
-                          <span key={tag} className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-slate-200 bg-white/10 px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-md">
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
+            {/* Stacked Cards Container */}
+            <div className="relative w-full max-w-2xl aspect-16/10 lg:aspect-video perspective-[1000px] z-10 mx-auto xl:mx-0">
+              {projects.map((project) => {
+                const isTop = deckProjects[0].title === project.title;
+                
+                return (
+                  <article 
+                    key={project.title} 
+                    id={`project-card-${project.title.replace(/\s+/g, '-')}`}
+                    onClick={() => isTop && handleNextCard()}
+                    className={`absolute top-0 left-0 w-full h-full flex flex-col group overflow-hidden rounded-[2rem] md:rounded-[2.5rem] bg-white/50 dark:bg-[#1A1A1A]/50 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] dark:shadow-[0_20px_50px_rgba(0,0,0,0.4)] border border-slate-200/50 dark:border-white/10 ${isTop ? 'cursor-pointer hover:-translate-y-2 transition-transform duration-300' : 'pointer-events-none'}`}
+                    style={{ transformOrigin: "top center" }}
+                  >
+                    {/* Image Background */}
+                    <div className="absolute inset-0 w-full h-full overflow-hidden">
+                      <div className="absolute inset-0 bg-linear-to-t from-[#121212]/90 via-[#121212]/40 to-transparent z-10" />
+                      <Image
+                        src={project.image}
+                        alt={project.title}
+                        fill
+                        className="object-cover"
+                      />
                     </div>
-                    
-                    <h3 className="font-heading text-3xl md:text-5xl font-medium text-white mb-4 transition-colors group-hover:text-purple-300 drop-shadow-lg leading-tight">
-                      {project.title}
-                    </h3>
-                    
-                    <p className="text-slate-300 font-medium text-sm md:text-base max-w-xl line-clamp-2 md:line-clamp-3 mb-8 drop-shadow-md">
-                      {project.description}
-                    </p>
-                    
-                    <a href="#contact" className="inline-flex items-center justify-center gap-4 text-xs md:text-sm font-bold uppercase tracking-widest text-white hover:text-purple-300 transition-colors w-fit group/btn bg-white/10 hover:bg-white/20 backdrop-blur-md pl-6 pr-2 py-2 rounded-full border border-white/20">
-                      View Case Study
-                      <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:-rotate-45">
-                        →
+
+                    {/* Content (Bottom Left) */}
+                    <div className="relative z-20 mt-auto p-6 md:p-10 flex flex-col items-start w-full">
+                      <div className="flex flex-wrap items-center gap-2 md:gap-3 mb-4">
+                        <p className="text-purple-300 text-xs md:text-sm font-bold bg-purple-900/40 backdrop-blur-md px-3 py-1 md:px-4 md:py-1.5 rounded-full border border-purple-500/30">
+                          {project.year}
+                        </p>
+                        <div className="flex flex-wrap gap-2 hidden sm:flex">
+                          {project.tags.slice(0, 3).map((tag) => (
+                            <span key={tag} className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-slate-200 bg-white/10 px-3 py-1.5 rounded-full border border-white/10 backdrop-blur-md">
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                    </a>
-                  </div>
-                </article>
-              ))}
+                      
+                      <h3 className="font-heading text-3xl md:text-5xl font-medium text-white mb-2 md:mb-4 drop-shadow-lg leading-tight">
+                        {project.title}
+                      </h3>
+                      
+                      <p className="text-slate-300 font-medium text-xs md:text-base max-w-xl line-clamp-2 md:line-clamp-3 mb-6 drop-shadow-md">
+                        {project.description}
+                      </p>
+                      
+                      {/* Separate the action from the card click since clicking card cycles. This link should stop propagation if clicked */}
+                      <a 
+                        href="#contact" 
+                        onClick={(e) => e.stopPropagation()}
+                        className="inline-flex items-center justify-center gap-3 text-xs md:text-sm font-bold uppercase tracking-widest text-white hover:text-purple-300 transition-colors w-fit group/btn bg-white/10 hover:bg-white/20 backdrop-blur-md pl-5 pr-2 py-2 rounded-full border border-white/20"
+                      >
+                        View Case Study
+                        <div className="w-6 h-6 md:w-8 md:h-8 rounded-full bg-white text-black flex items-center justify-center transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:-rotate-45">
+                          →
+                        </div>
+                      </a>
+                    </div>
+                  </article>
+                );
+              })}
             </div>
           </div>
 
