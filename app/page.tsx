@@ -289,9 +289,6 @@ export default function Home() {
           <section className="relative w-full min-h-screen flex items-center">
             <div className="mx-auto w-full max-w-[1200px] px-6 md:px-12 pt-32 pb-24 lg:pt-40">
               <div className="max-w-3xl">
-                <p className="hero-tag text-[var(--color-accent)] text-sm font-semibold tracking-widest uppercase mb-6">
-                  Full-Stack Developer & Media Specialist
-                </p>
                 <h1 className="hero-title font-[family-name:var(--font-geist)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold leading-[1.1] tracking-tight mb-6">
                   Building clean, scalable
                   <br />

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import anime from 'animejs';
+import anime from "animejs";
 
 export function useCardInteraction(reducedMotion: boolean) {
   useEffect(() => {

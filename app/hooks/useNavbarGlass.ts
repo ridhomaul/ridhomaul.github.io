@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import anime from 'animejs';
+import anime from "animejs";
 
 export function useNavbarGlass(reducedMotion: boolean) {
   const navRef = useRef<HTMLElement>(null);
