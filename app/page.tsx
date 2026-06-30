@@ -8,7 +8,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   SiLaravel, SiPhp, SiPostgresql, SiMysql, SiDocker,
   SiTypescript, SiNextdotjs, SiReact, SiTailwindcss, SiGreensock,
-  SiPython, SiFigma, SiCanva, SiInstagram, SiWhatsapp, SiGithub, SiLinkerd
+  SiPython, SiFigma, SiCanva, SiInstagram, SiWhatsapp, SiGithub, SiLinkerd,
+  SiSupabase, SiAnimedotjs
 } from "react-icons/si";
 import { Video, Camera, ExternalLink, ArrowUpRight } from "lucide-react";
 import Preloader from "./components/Preloader";
@@ -117,6 +118,7 @@ const techStack = {
     { name: "TypeScript", Icon: SiTypescript, color: "#3178C6" },
     { name: "Tailwind CSS", Icon: SiTailwindcss, color: "#06B6D4" },
     { name: "GSAP", Icon: SiGreensock, color: "#88CE02" },
+    { name: "Anime.js", Icon: SiAnimedotjs, color: "#FF4C29" },
   ],
   Backend: [
     { name: "PHP", Icon: SiPhp, color: "#777BB4" },
@@ -126,6 +128,7 @@ const techStack = {
   Database: [
     { name: "PostgreSQL", Icon: SiPostgresql, color: "#4169E1" },
     { name: "MySQL", Icon: SiMysql, color: "#4479A1" },
+    { name: "Supabase", Icon: SiSupabase, color: "#3ECF8E" },
   ],
   Tools: [
     { name: "Docker", Icon: SiDocker, color: "#2496ED" },
