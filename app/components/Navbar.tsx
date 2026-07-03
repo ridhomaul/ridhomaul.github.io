@@ -111,7 +111,7 @@ export default function Navbar() {
         width: targetEl.offsetWidth,
         opacity: 1,
         duration: 400,
-        easing: 'easeOutElastic(1, .8)'
+        easing: 'easeOutExpo'
       });
     }
   }, [activeItem, hoveredItem, reducedMotion]);
