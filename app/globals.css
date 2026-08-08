@@ -10,8 +10,8 @@
   --color-surface: #FFFFFF;
   --color-text-primary: #171717;
   --color-text-secondary: #737373;
-  --color-accent: #7C3AED;
-  --color-accent-hover: #6D28D9;
+  --color-accent: #404040;
+  --color-accent-hover: #262626;
   --color-border: #E5E5E5;
 
   --radius: 16px;
@@ -29,8 +29,8 @@
   --color-surface: #141414;
   --color-text-primary: #FAFAFA;
   --color-text-secondary: #A3A3A3;
-  --color-accent: #8B5CF6;
-  --color-accent-hover: #A78BFA;
+  --color-accent: #D4D4D4;
+  --color-accent-hover: #E5E5E5;
   --color-border: #262626;
 
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);

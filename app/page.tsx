@@ -13,7 +13,7 @@ import {
 } from "react-icons/si";
 import { Video, Camera, ExternalLink, ArrowUpRight } from "lucide-react";
 import Preloader from "./components/Preloader";
-import ProjectStack from "./components/ProjectStack";
+import BentoProjects from "./components/BentoProjects";
 import DeveloperBadge from "./components/DeveloperBadge";
 
 // Anime.js Micro-Interaction Hooks
@@ -356,13 +356,13 @@ export default function Home() {
                 <h2 className="font-(family-name:--font-geist) text-3xl md:text-4xl font-semibold mb-4">
                   Featured Projects
                 </h2>
-                <div className="mx-auto w-20 h-1 rounded-full bg-gradient-to-r from-purple-500 via-accent to-blue-500 mb-4" />
+                <div className="mx-auto w-20 h-1 rounded-full bg-gradient-to-r from-transparent via-text-secondary/50 to-transparent mb-4" />
                 <p className="text-text-secondary max-w-md mx-auto text-sm md:text-base">
                   Beberapa project pilihan yang menunjukkan kemampuan dan pengalaman saya.
                 </p>
               </div>
 
-              <ProjectStack projects={projects} />
+              <BentoProjects projects={projects} />
             </div>
           </section>
 

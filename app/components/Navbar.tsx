@@ -283,7 +283,7 @@ export default function Navbar() {
         {/* Sliding Pill using Anime.js */}
         <div 
           ref={pillRef}
-          className="absolute top-2 bottom-2 bg-linear-to-r from-purple-500/90 to-blue-500/90 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5),inset_0_-2px_4px_rgba(0,0,0,0.3),0_0_15px_rgba(168,85,247,0.6)] border border-white/40 dark:border-white/20 z-0 opacity-0 pointer-events-none"
+          className="absolute top-2 bottom-2 bg-linear-to-r from-black/10 to-transparent dark:from-white/20 dark:to-white/10 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5),inset_0_-2px_4px_rgba(0,0,0,0.3),0_0_15px_rgba(0,0,0,0.1)] dark:shadow-[inset_0_2px_4px_rgba(255,255,255,0.5),inset_0_-2px_4px_rgba(0,0,0,0.3),0_0_15px_rgba(255,255,255,0.15)] border border-white/40 dark:border-white/20 z-0 opacity-0 pointer-events-none"
           style={{ 
             willChange: 'transform, left, width, opacity',
             transformOrigin: 'center center',
@@ -318,8 +318,8 @@ export default function Navbar() {
                     : "text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white drop-shadow-sm"
                 }`}
               >
-                <item.icon className={`relative w-4 h-4 transition-colors duration-300 z-20 ${isActive && !isHovered ? "text-purple-600 dark:text-purple-300" : ""}`} />
-                <span className={`relative hidden sm:inline transition-colors duration-300 z-20 ${isActive && !isHovered ? "text-purple-600 dark:text-purple-300" : ""}`}>{item.name}</span>
+                <item.icon className={`relative w-4 h-4 transition-colors duration-300 z-20 ${isActive && !isHovered ? "text-text-primary font-bold" : ""}`} />
+                <span className={`relative hidden sm:inline transition-colors duration-300 z-20 ${isActive && !isHovered ? "text-text-primary font-bold" : ""}`}>{item.name}</span>
               </a>
             );
           })}
