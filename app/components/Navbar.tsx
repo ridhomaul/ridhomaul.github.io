@@ -97,6 +97,7 @@ export default function Navbar() {
   // Anime.js Sliding Pill logic
   const itemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const pillRef = useRef<HTMLDivElement>(null);
+  const prevPillLeft = useRef<number | null>(null);
 
   useEffect(() => {
     if (reducedMotion || !pillRef.current) return;
@@ -105,14 +106,65 @@ export default function Navbar() {
     const targetEl = itemsRef.current[activeIndex];
     
     if (targetEl && pillRef.current) {
-      anime({
-        targets: pillRef.current,
-        left: targetEl.offsetLeft,
-        width: targetEl.offsetWidth,
-        opacity: 1,
-        duration: 400,
-        easing: 'easeOutExpo'
-      });
+      const targetLeft = targetEl.offsetLeft;
+      const targetWidth = targetEl.offsetWidth;
+      const currentLeft = prevPillLeft.current;
+      const isFirstRender = currentLeft === null;
+      const direction = currentLeft !== null ? (targetLeft > currentLeft ? 1 : targetLeft < currentLeft ? -1 : 0) : 0;
+      const distance = currentLeft !== null ? Math.abs(targetLeft - currentLeft) : 0;
+
+      // Cancel any running animations on the pill
+      anime.remove(pillRef.current);
+
+      if (isFirstRender) {
+        // Instant position on first render, just fade in
+        anime({
+          targets: pillRef.current,
+          left: targetLeft,
+          width: targetWidth,
+          opacity: 1,
+          scaleX: 1,
+          scaleY: 1,
+          duration: 300,
+          easing: 'easeOutCubic'
+        });
+      } else if (direction !== 0) {
+        // Smooth spring-like sliding with squish effect
+        // Stretch slightly in movement direction, compress vertically
+        const stretchAmount = Math.min(1 + distance * 0.0008, 1.08);
+        const squishAmount = Math.max(1 - distance * 0.0004, 0.92);
+
+        // Animate with squish and overshoot
+        anime({
+          targets: pillRef.current,
+          left: [currentLeft, targetLeft],
+          width: [pillRef.current.offsetWidth, targetWidth],
+          scaleY: [
+            { value: squishAmount, duration: 100, ease: 'outCubic' },
+            { value: 1.04, duration: 180, ease: 'outCubic' },
+            { value: 1, duration: 280, ease: 'outElastic(1, 0.5)' }
+          ],
+          scaleX: [
+            { value: stretchAmount, duration: 120, ease: 'outCubic' },
+            { value: 0.97, duration: 160, ease: 'outCubic' },
+            { value: 1, duration: 280, ease: 'outElastic(1, 0.5)' }
+          ],
+          opacity: 1,
+          duration: 480,
+          easing: 'outBack(1.2)'
+        });
+      } else {
+        // Same position, just resize smoothly
+        anime({
+          targets: pillRef.current,
+          width: targetWidth,
+          opacity: 1,
+          duration: 300,
+          easing: 'easeOutCubic'
+        });
+      }
+
+      prevPillLeft.current = targetLeft;
     }
   }, [activeItem, hoveredItem, reducedMotion]);
 
@@ -232,6 +284,10 @@ export default function Navbar() {
         <div 
           ref={pillRef}
           className="absolute top-2 bottom-2 bg-linear-to-r from-purple-500/90 to-blue-500/90 rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.5),inset_0_-2px_4px_rgba(0,0,0,0.3),0_0_15px_rgba(168,85,247,0.6)] border border-white/40 dark:border-white/20 z-0 opacity-0 pointer-events-none"
+          style={{ 
+            willChange: 'transform, left, width, opacity',
+            transformOrigin: 'center center',
+          }}
         >
           <div className="absolute inset-x-0 top-0 h-1/2 bg-linear-to-b from-white/50 to-transparent rounded-t-full pointer-events-none" />
         </div>
