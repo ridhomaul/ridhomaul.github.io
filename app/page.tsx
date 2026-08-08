@@ -40,8 +40,8 @@ const projects = [
       "Merancang arsitektur sistem dari nol, membangun fitur Kanban board real-time, dan mengimplementasikan sistem multi-tenancy.",
     challenge:
       "Mengelola state management yang kompleks untuk Kanban board dengan drag-and-drop antar kolom secara real-time.",
-    demoUrl: "#",
-    repoUrl: "#",
+    demoUrl: null,
+    repoUrl: null,
   },
   {
     title: "MileniaNews Content Production",
@@ -68,7 +68,7 @@ const projects = [
       "Membangun seluruh frontend dari desain hingga deployment, termasuk design system dan micro-interactions.",
     challenge:
       "Menciptakan animasi yang halus tanpa mengorbankan performa Lighthouse di atas 90.",
-    demoUrl: "#",
+    demoUrl: null,
     repoUrl: "https://github.com/ridhomaul",
   },
 ];
@@ -349,9 +349,17 @@ export default function Home() {
           <section id="projects" className="py-24 md:py-32">
             <div className="projects-container mx-auto max-w-[1200px] px-6 md:px-12">
               <div className="reveal-section mb-16 text-center">
-                <h2 className="font-(family-name:--font-geist) text-3xl md:text-4xl font-semibold">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-xs font-semibold tracking-wider uppercase mb-5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                  {projects.length} Projects
+                </div>
+                <h2 className="font-(family-name:--font-geist) text-3xl md:text-4xl font-semibold mb-4">
                   Featured Projects
                 </h2>
+                <div className="mx-auto w-20 h-1 rounded-full bg-gradient-to-r from-purple-500 via-accent to-blue-500 mb-4" />
+                <p className="text-text-secondary max-w-md mx-auto text-sm md:text-base">
+                  Beberapa project pilihan yang menunjukkan kemampuan dan pengalaman saya.
+                </p>
               </div>
 
               <ProjectStack projects={projects} />

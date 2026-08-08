@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ChevronLeft, ChevronRight } from "lucide-react";
 import { SiGithub } from "react-icons/si";
 
 if (typeof window !== "undefined") {
@@ -34,6 +34,8 @@ export default function ProjectStack({ projects }: ProjectStackProps) {
   const activeIndexRef = useRef(0);
   const isAnimatingRef = useRef(false);
   const backgroundRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
 
   // Background colors corresponding to projects
   const bgColors = [
@@ -142,9 +144,10 @@ export default function ProjectStack({ projects }: ProjectStackProps) {
     }
   }, { scope: containerRef });
 
-  const nextCard = () => {
+  const nextCard = useCallback(() => {
     if (isAnimatingRef.current) return;
     isAnimatingRef.current = true;
+    if (!hasInteracted) setHasInteracted(true);
 
     const currentActive = cardsRef.current[activeIndexRef.current];
     if (!currentActive) {
@@ -157,6 +160,7 @@ export default function ProjectStack({ projects }: ProjectStackProps) {
       onComplete: () => {
         // Step 2: Update active index and arrange the rest
         activeIndexRef.current = (activeIndexRef.current + 1) % projects.length;
+        setActiveIndex(activeIndexRef.current);
         arrangeCards(true, 0.6);
         
         // Reset the z-index of the old card immediately so it pops to the back cleanly
@@ -189,15 +193,17 @@ export default function ProjectStack({ projects }: ProjectStackProps) {
       },
       0
     );
-  };
+  }, [hasInteracted, projects.length]);
 
-  const prevCard = () => {
+  const prevCard = useCallback(() => {
     if (isAnimatingRef.current) return;
     isAnimatingRef.current = true;
+    if (!hasInteracted) setHasInteracted(true);
 
     // To go previous, the LAST card in the stack comes forward
     const total = projects.length;
     activeIndexRef.current = (activeIndexRef.current - 1 + total) % total;
+    setActiveIndex(activeIndexRef.current);
     
     const newActive = cardsRef.current[activeIndexRef.current];
     if (!newActive) {
@@ -218,7 +224,17 @@ export default function ProjectStack({ projects }: ProjectStackProps) {
     setTimeout(() => {
       isAnimatingRef.current = false;
     }, 600);
-  };
+  }, [hasInteracted, projects.length]);
+
+  // Navigate to specific card by index
+  const goToCard = useCallback((targetIndex: number) => {
+    if (isAnimatingRef.current || targetIndex === activeIndexRef.current) return;
+    if (targetIndex > activeIndexRef.current) {
+      nextCard();
+    } else {
+      prevCard();
+    }
+  }, [nextCard, prevCard]);
 
   // Keyboard accessibility
   useEffect(() => {
@@ -378,6 +394,16 @@ export default function ProjectStack({ projects }: ProjectStackProps) {
                       {project.contribution}
                     </p>
                   </div>
+                  {project.challenge && (
+                    <div>
+                      <p className="text-xs font-semibold tracking-widest uppercase text-text-secondary mb-1">
+                        Challenge
+                      </p>
+                      <p className="text-sm text-text-secondary leading-relaxed">
+                        {project.challenge}
+                      </p>
+                    </div>
+                  )}
                 </div>
 
                 {/* Links */}
@@ -411,6 +437,56 @@ export default function ProjectStack({ projects }: ProjectStackProps) {
             </div>
           </article>
         ))}
+      </div>
+
+      {/* Navigation Buttons */}
+      <button
+        onClick={(e) => { e.stopPropagation(); prevCard(); }}
+        className="hidden md:flex absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 items-center justify-center rounded-full bg-surface/80 dark:bg-surface/60 backdrop-blur-sm border border-border shadow-lg hover:bg-surface hover:scale-110 active:scale-95 transition-all duration-200 text-text-secondary hover:text-text-primary"
+        aria-label="Previous project"
+      >
+        <ChevronLeft className="w-5 h-5" />
+      </button>
+      <button
+        onClick={(e) => { e.stopPropagation(); nextCard(); }}
+        className="hidden md:flex absolute right-2 lg:right-6 top-1/2 -translate-y-1/2 z-20 w-11 h-11 items-center justify-center rounded-full bg-surface/80 dark:bg-surface/60 backdrop-blur-sm border border-border shadow-lg hover:bg-surface hover:scale-110 active:scale-95 transition-all duration-200 text-text-secondary hover:text-text-primary"
+        aria-label="Next project"
+      >
+        <ChevronRight className="w-5 h-5" />
+      </button>
+
+      {/* Pagination Indicator */}
+      <div className="absolute bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-3">
+        <div className="flex items-center gap-4">
+          {/* Dots */}
+          <div className="flex items-center gap-2">
+            {projects.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => goToCard(idx)}
+                aria-label={`Go to project ${idx + 1}`}
+                className={`rounded-full transition-all duration-300 ${
+                  idx === activeIndex
+                    ? "w-6 h-2 bg-accent shadow-[0_0_8px_rgba(139,92,246,0.5)]"
+                    : "w-2 h-2 bg-text-secondary/30 hover:bg-text-secondary/60"
+                }`}
+              />
+            ))}
+          </div>
+          {/* Counter */}
+          <span className="text-xs font-semibold text-text-secondary tabular-nums">
+            {activeIndex + 1} / {projects.length}
+          </span>
+        </div>
+
+        {/* Interaction Hint */}
+        <p
+          className={`text-xs text-text-secondary/60 transition-opacity duration-700 ${
+            hasInteracted ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
+          Click card or use ← → arrow keys
+        </p>
       </div>
     </div>
   );
