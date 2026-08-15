@@ -16,6 +16,7 @@ import Preloader from "./components/Preloader";
 import BentoProjects from "./components/BentoProjects";
 import DeveloperBadge from "./components/DeveloperBadge";
 import { ProjectShowcase, type ShowcaseItem } from "@/components/ui/project-showcase";
+import { ProjectsCarousel, type Testimonial } from "@/components/ui/projects-carousel";
 
 // Anime.js Micro-Interaction Hooks
 import { useButtonInteraction } from "./hooks/useButtonInteraction";
@@ -29,48 +30,27 @@ if (typeof window !== "undefined") {
 
 // ===== DATA =====
 
-const projects = [
+const projects: Testimonial[] = [
   {
-    title: "Milenner Platform",
-    description:
-      "Platform manajemen konten tim media sosial berbasis web dengan fitur Kanban board, multi-tenancy, dan performa tinggi.",
-    image: "/project1.png",
-    year: "2026",
-    tags: ["Laravel 12", "PHP 8.4", "PostgreSQL", "Kanban"],
-    contribution:
-      "Merancang arsitektur sistem dari nol, membangun fitur Kanban board real-time, dan mengimplementasikan sistem multi-tenancy.",
-    challenge:
-      "Mengelola state management yang kompleks untuk Kanban board dengan drag-and-drop antar kolom secara real-time.",
-    demoUrl: null,
-    repoUrl: null,
+    name: "Milenner Platform",
+    quote:
+      "Platform manajemen konten tim media sosial berbasis web dengan fitur Kanban board, multi-tenancy, dan performa tinggi. Merancang arsitektur sistem dari nol, membangun fitur Kanban board real-time, dan mengimplementasikan sistem multi-tenancy.",
+    src: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=2574&auto=format&fit=crop",
+    designation: "2026 • Laravel 12, PHP 8.4, PostgreSQL, Kanban",
   },
   {
-    title: "MileniaNews Content Production",
-    description:
-      "Perencanaan, penyuntingan, dan produksi lebih dari 600 konten media digital dengan strategi distribusi yang terukur.",
-    image: "/project-monitoring.svg",
-    year: "2024 – 2026",
-    tags: ["Content Planning", "Video Editing", "Media Strategy"],
-    contribution:
-      "Memimpin tim konten, menyusun editorial calendar, dan mengeksekusi produksi video dari pre-production hingga distribusi.",
-    challenge:
-      "Menjaga konsistensi output harian dengan tim kecil sambil mempertahankan kualitas konten yang tinggi.",
-    demoUrl: null,
-    repoUrl: null,
+    name: "MileniaNews Content Production",
+    quote:
+      "Perencanaan, penyuntingan, dan produksi lebih dari 600 konten media digital dengan strategi distribusi yang terukur. Memimpin tim konten, menyusun editorial calendar, dan mengeksekusi produksi video dari pre-production hingga distribusi.",
+    src: "https://images.unsplash.com/photo-1542204165-65bf26472b9b?q=80&w=2574&auto=format&fit=crop",
+    designation: "2024 – 2026 • Content Planning, Video Editing, Media Strategy",
   },
   {
-    title: "Personal Portfolio v2",
-    description:
-      "Desain portofolio personal dengan pendekatan minimalis, performa optimal, dan animasi interaktif menggunakan GSAP & Anime.js.",
-    image: "/project-cloud.svg",
-    year: "2026",
-    tags: ["Next.js 14", "Tailwind v4", "GSAP", "Anime.js"],
-    contribution:
-      "Membangun seluruh frontend dari desain hingga deployment, termasuk design system dan micro-interactions.",
-    challenge:
-      "Menciptakan animasi yang halus tanpa mengorbankan performa Lighthouse di atas 90.",
-    demoUrl: null,
-    repoUrl: "https://github.com/ridhomaul",
+    name: "Personal Portfolio v2",
+    quote:
+      "Desain portofolio personal dengan pendekatan minimalis, performa optimal, dan animasi interaktif menggunakan GSAP & Anime.js. Membangun seluruh frontend dari desain hingga deployment, termasuk design system dan micro-interactions.",
+    src: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2672&auto=format&fit=crop",
+    designation: "2026 • Next.js 14, Tailwind v4, GSAP, Anime.js",
   },
 ];
 
@@ -196,19 +176,7 @@ export default function Home() {
         );
       });
 
-      // Project Cards Stagger
-      gsap.fromTo(
-        ".project-card",
-        { opacity: 0, y: 60 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          stagger: 0.15,
-          ease: "power3.out",
-          scrollTrigger: { trigger: ".projects-container", start: "top 80%" },
-        }
-      );
+      // Project Cards Stagger - Handled internally by ProjectsCarousel
 
       // Tech Stack Items Stagger
       gsap.fromTo(
@@ -322,7 +290,36 @@ export default function Home() {
                 </p>
               </div>
 
-              <BentoProjects projects={projects} />
+              <div className="reveal-section mt-8">
+                <ProjectsCarousel 
+                  testimonials={projects} 
+                  colors={{
+                    name: "var(--project-showcase-name-color)",
+                    position: "var(--project-showcase-position-color)",
+                    testimony: "var(--project-showcase-testimony-color)",
+                  }}
+                  fontSizes={{
+                    name: "var(--project-showcase-name-size)",
+                    position: "var(--project-showcase-position-size)",
+                    testimony: "var(--project-showcase-testimony-size)",
+                  }}
+                  spacing={{
+                    nameTop: "var(--project-showcase-name-top)",
+                    nameBottom: "var(--project-showcase-name-bottom)",
+                    positionTop: "var(--project-showcase-position-top)",
+                    positionBottom: "var(--project-showcase-position-bottom)",
+                    testimonyTop: "var(--project-showcase-testimony-top)",
+                    testimonyBottom: "var(--project-showcase-testimony-bottom)",
+                    lineHeight: "var(--project-showcase-line-height)",
+                  }}
+                  halomotButtonGradient="var(--project-showcase-button-gradient)"
+                  halomotButtonBackground="var(--project-showcase-button-background)"
+                  halomotButtonTextColor="var(--project-showcase-button-text-color)"
+                  halomotButtonOuterBorderRadius="var(--project-showcase-button-outer-radius)"
+                  halomotButtonInnerBorderRadius="var(--project-showcase-button-inner-radius)"
+                  halomotButtonHoverTextColor="var(--project-showcase-button-hover-text-color)"
+                />
+              </div>
             </div>
           </section>
 

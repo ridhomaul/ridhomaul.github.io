@@ -21,6 +21,9 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.08);
+
+  --color-halomot-button-foreground: var(--halomot-button-foreground);
+  --color-halomot-button-background: var(--halomot-button-background);
 }
 
 /* Dark mode overrides via Tailwind custom properties */
@@ -36,6 +39,52 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.4);
   --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.5);
+
+  --halomot-button-background: #0a0a0a;
+  --halomot-button-foreground: #fff;
+  --project-showcase-name-color: #fff;
+  --project-showcase-position-color: #aaa;
+  --project-showcase-testimony-color: #eee;
+  --project-showcase-name-size: 28px;
+  --project-showcase-position-size: 20px;
+  --project-showcase-testimony-size: 20px;
+  --project-showcase-name-top: 0;
+  --project-showcase-name-bottom: 10px;
+  --project-showcase-position-top: 0;
+  --project-showcase-position-bottom: 0.5em;
+  --project-showcase-testimony-top: 1.24em;
+  --project-showcase-testimony-bottom: 1em;
+  --project-showcase-line-height: 1.56;
+  --project-showcase-button-gradient: linear-gradient(to right, #603dec, #a123f4);
+  --project-showcase-button-background: #161616;
+  --project-showcase-button-text-color: #fff;
+  --project-showcase-button-outer-radius: 6.34px;
+  --project-showcase-button-inner-radius: 6px;
+  --project-showcase-button-hover-text-color: #fff;
+}
+
+:root {
+  --halomot-button-background: #fff;
+  --halomot-button-foreground: #0a0a0a;
+  --project-showcase-name-color: #0a0a0a;
+  --project-showcase-position-color: #454545;
+  --project-showcase-testimony-color: #171717;
+  --project-showcase-name-size: 28px;
+  --project-showcase-position-size: 20px;
+  --project-showcase-testimony-size: 20px;
+  --project-showcase-name-top: 0;
+  --project-showcase-name-bottom: 10px;
+  --project-showcase-position-top: 0;
+  --project-showcase-position-bottom: 0.5em;
+  --project-showcase-testimony-top: 1.24em;
+  --project-showcase-testimony-bottom: 1em;
+  --project-showcase-line-height: 1.56;
+  --project-showcase-button-gradient: linear-gradient(to right, #603dec, #a123f4);
+  --project-showcase-button-background: #eee;
+  --project-showcase-button-text-color: #111;
+  --project-showcase-button-outer-radius: 16.2px;
+  --project-showcase-button-inner-radius: 15px;
+  --project-showcase-button-hover-text-color: #fff;
 }
 
 /* ===== BASE RESET ===== */
