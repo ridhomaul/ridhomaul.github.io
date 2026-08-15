@@ -15,6 +15,7 @@ import { Video, Camera, ExternalLink, ArrowUpRight } from "lucide-react";
 import Preloader from "./components/Preloader";
 import BentoProjects from "./components/BentoProjects";
 import DeveloperBadge from "./components/DeveloperBadge";
+import { ProjectShowcase, type ShowcaseItem } from "@/components/ui/project-showcase";
 
 // Anime.js Micro-Interaction Hooks
 import { useButtonInteraction } from "./hooks/useButtonInteraction";
@@ -73,41 +74,30 @@ const projects = [
   },
 ];
 
-const experiences = [
+const experiences: ShowcaseItem[] = [
   {
     title: "Full-Stack Developer & Researcher",
-    place: "MileniaNews & Universitas Bina Sarana Informatika",
-    period: "2026",
-    details: [
-      "Merancang aplikasi manajemen proyek media sosial menggunakan Metode Waterfall.",
-      "Mengembangkan arsitektur backend kokoh dengan integrasi database relasional.",
-    ],
+    description: "MileniaNews & Universitas Bina Sarana Informatika. Merancang aplikasi manajemen proyek media sosial menggunakan Metode Waterfall dan mengembangkan arsitektur backend kokoh dengan integrasi database relasional.",
+    year: "2026",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2672&auto=format&fit=crop",
   },
   {
     title: "Digital Media Specialist (Intern)",
-    place: "MileniaNews",
-    period: "2024 – Present",
-    details: [
-      "Bertanggung jawab sebagai Content Planner, Editor, dan Camera Person.",
-      "Berhasil memproduksi dan mendistribusikan lebih dari 2000 konten digital.",
-    ],
+    description: "MileniaNews. Bertanggung jawab sebagai Content Planner, Editor, dan Camera Person. Berhasil memproduksi dan mendistribusikan lebih dari 2000 konten digital.",
+    year: "2024 – Present",
+    image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=2670&auto=format&fit=crop",
   },
   {
     title: "IT Support",
-    place: "Gedung Bidakara, Jakarta",
-    period: "2022",
-    details: [
-      "Instalasi, konfigurasi, dan pemeliharaan perangkat karyawan.",
-      "Instalasi Sistem Operasi dan perangkat lunak sesuai standar perusahaan.",
-    ],
+    description: "Gedung Bidakara, Jakarta. Instalasi, konfigurasi, dan pemeliharaan perangkat karyawan serta instalasi Sistem Operasi dan perangkat lunak sesuai standar perusahaan.",
+    year: "2022",
+    image: "https://images.unsplash.com/photo-1629654297299-c8506221ca97?q=80&w=2574&auto=format&fit=crop",
   },
   {
     title: "Encryption Data Rekam Medis",
-    place: "Universitas Bina Sarana Informatika",
-    period: "2025",
-    details: [
-      "Mengimplementasikan sistem enkripsi untuk keamanan data medis pada platform web.",
-    ],
+    description: "Universitas Bina Sarana Informatika. Mengimplementasikan sistem enkripsi untuk keamanan data medis pada platform web.",
+    year: "2025",
+    image: "https://images.unsplash.com/photo-1563206767-5b18f218e8de?q=80&w=2669&auto=format&fit=crop",
   },
 ];
 
@@ -234,37 +224,7 @@ export default function Home() {
         }
       );
 
-      // Experience Timeline Draw
-      gsap.fromTo(
-        ".timeline-line",
-        { height: 0 },
-        {
-          height: "100%",
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".experience-container",
-            start: "top center",
-            end: "bottom center",
-            scrub: true,
-          },
-        }
-      );
-
-      // Experience Items Fade
-      const expItems = gsap.utils.toArray(".exp-item") as HTMLElement[];
-      expItems.forEach((item) => {
-        gsap.fromTo(
-          item,
-          { opacity: 0, x: -20 },
-          {
-            opacity: 1,
-            x: 0,
-            duration: 0.3,
-            ease: "power2.out",
-            scrollTrigger: { trigger: item, start: "top 85%" },
-          }
-        );
-      });
+      // Experience Section Animation removed as it's now handled by ProjectShowcase component internally
 
       // Contact Fade
       gsap.fromTo(
@@ -488,53 +448,7 @@ export default function Home() {
           {/* ===== EXPERIENCE SECTION ===== */}
           <section id="experience" className="py-24 md:py-32 border-t border-border">
             <div className="reveal-section mx-auto max-w-[1200px] px-6 md:px-12">
-              <h2 className="font-(family-name:--font-geist) text-3xl md:text-4xl font-semibold mb-16">
-                Experience
-              </h2>
-
-              <div className="experience-container relative max-w-3xl mx-auto">
-                {/* Timeline Line */}
-                <div className="absolute left-0 md:left-6 top-0 bottom-0 w-px bg-border">
-                  <div className="timeline-line w-full bg-accent origin-top" />
-                </div>
-
-                <div className="space-y-10">
-                  {experiences.map((item) => (
-                    <div
-                      key={item.title}
-                      className="exp-item relative pl-8 md:pl-16"
-                    >
-                      {/* Timeline Node */}
-                      <div className="absolute left-[-4px] md:left-[20px] top-1.5 w-[9px] h-[9px] rounded-full bg-bg border-2 border-accent z-10" />
-
-                      <div className="bg-surface border border-border rounded-(--radius) p-6 shadow-(--shadow-sm) hover:shadow-(--shadow-md) transition-shadow duration-200">
-                        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 mb-3">
-                          <h3 className="font-(family-name:--font-geist) text-lg font-semibold">
-                            {item.title}
-                          </h3>
-                          <span className="text-xs font-semibold text-accent">
-                            {item.period}
-                          </span>
-                        </div>
-                        <p className="text-sm font-medium text-text-secondary mb-4">
-                          {item.place}
-                        </p>
-                        <ul className="space-y-2">
-                          {item.details.map((detail, dIdx) => (
-                            <li
-                              key={dIdx}
-                              className="flex items-start gap-2 text-sm text-text-secondary leading-relaxed"
-                            >
-                              <span className="mt-2 w-1 h-1 rounded-full bg-accent shrink-0" />
-                              {detail}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+              <ProjectShowcase title="Experience" items={experiences} />
             </div>
           </section>
 
