@@ -156,8 +156,9 @@ export const ProjectsCarousel = ({
     };
   }, [handleResize]);
 
-  const randomRotateY = () => {
-    return Math.floor(Math.random() * 21) - 10;
+  const randomRotateY = (index: number) => {
+    const pseudoRandom = (Math.sin(index * 12.9898) * 43758.5453) % 1;
+    return Math.floor(Math.abs(pseudoRandom) * 21) - 10;
   };
 
   const calculateGap = (width: number) => {
@@ -210,13 +211,13 @@ export const ProjectsCarousel = ({
                         opacity: 0,
                         scale: 0.9,
                         z: -100,
-                        rotate: randomRotateY()
+                        rotate: randomRotateY(index)
                       }}
                       animate={{
                         opacity: isActive(index) ? 1 : 0.7,
                         scale: isActive(index) ? 1 : 0.95,
                         z: isActive(index) ? 0 : -100,
-                        rotate: isActive(index) ? 0 : randomRotateY(),
+                        rotate: isActive(index) ? 0 : randomRotateY(index),
                         zIndex: isActive(index)
                           ? 999
                           : testimonials.length + 2 - index,
@@ -226,7 +227,7 @@ export const ProjectsCarousel = ({
                         opacity: 0,
                         scale: 0.9,
                         z: 100,
-                        rotate: randomRotateY()
+                        rotate: randomRotateY(index)
                       }}
                       transition={{ duration: 0.4, ease: "easeInOut" }}
                       className="absolute inset-0 origin-bottom"
@@ -373,13 +374,13 @@ export const ProjectsCarousel = ({
                         opacity: 0,
                         scale: 0.9,
                         z: -100,
-                        rotate: randomRotateY()
+                        rotate: randomRotateY(index)
                       }}
                       animate={{
                         opacity: isActive(index) ? 1 : 0.7,
                         scale: isActive(index) ? 1 : 0.95,
                         z: isActive(index) ? 0 : -100,
-                        rotate: isActive(index) ? 0 : randomRotateY(),
+                        rotate: isActive(index) ? 0 : randomRotateY(index),
                         zIndex: isActive(index)
                           ? 999
                           : testimonials.length + 2 - index,
@@ -389,7 +390,7 @@ export const ProjectsCarousel = ({
                         opacity: 0,
                         scale: 0.9,
                         z: 100,
-                        rotate: randomRotateY()
+                        rotate: randomRotateY(index)
                       }}
                       transition={{ duration: 0.4, ease: "easeInOut" }}
                       className="absolute inset-0 origin-bottom"

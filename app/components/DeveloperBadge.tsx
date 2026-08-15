@@ -158,6 +158,7 @@ export default function DeveloperBadge() {
     if (badgeRef.current) {
       gsap.fromTo(
         badgeRef.current,
+        // eslint-disable-next-line react-hooks/purity
         { rotationZ: (Math.random() - 0.5) * 15 },
         {
           rotationZ: 0,
