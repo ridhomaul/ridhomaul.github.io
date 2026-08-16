@@ -37,6 +37,8 @@ type DockProps = {
 type DockItemProps = {
   className?: string;
   children: React.ReactNode;
+  href?: string;
+  onClick?: () => void;
 };
 type DockLabelProps = {
   className?: string;
@@ -123,7 +125,7 @@ function Dock({
   );
 }
 
-function DockItem({ children, className }: DockItemProps) {
+function DockItem({ children, className, href, onClick }: DockItemProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   const { distance, magnification, mouseX, spring } = useDock();
@@ -143,9 +145,13 @@ function DockItem({ children, className }: DockItemProps) {
 
   const width = useSpring(widthTransform, spring);
 
+  const Wrapper = href ? motion.a : motion.div;
+
   return (
-    <motion.div
-      ref={ref}
+    <Wrapper
+      ref={ref as any}
+      href={href}
+      onClick={onClick}
       style={{ width }}
       onHoverStart={() => isHovered.set(1)}
       onHoverEnd={() => isHovered.set(0)}
@@ -162,7 +168,7 @@ function DockItem({ children, className }: DockItemProps) {
       {Children.map(children, (child) =>
         cloneElement(child as React.ReactElement, { width, isHovered })
       )}
-    </motion.div>
+    </Wrapper>
   );
 }
 

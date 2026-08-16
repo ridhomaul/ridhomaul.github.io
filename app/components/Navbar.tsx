@@ -1,16 +1,16 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Home, FolderKanban, User, Briefcase, Mail } from "lucide-react";
 import { useTheme } from "next-themes";
-import { RandomLetterSwap } from "@/components/ui/random-letter-swap";
+import { Dock, DockIcon, DockItem, DockLabel } from "@/components/ui/dock";
 
 const navItems = [
-  { name: "Home", href: "#home" },
-  { name: "Projects", href: "#projects" },
-  { name: "About", href: "#about" },
-  { name: "Experience", href: "#experience" },
-  { name: "Contact", href: "#contact" },
+  { name: "Home", href: "#home", icon: Home },
+  { name: "Projects", href: "#projects", icon: FolderKanban },
+  { name: "About", href: "#about", icon: User },
+  { name: "Experience", href: "#experience", icon: Briefcase },
+  { name: "Contact", href: "#contact", icon: Mail },
 ];
 
 export default function Navbar() {
@@ -23,35 +23,39 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div className="fixed top-6 inset-x-0 z-50 flex justify-center pointer-events-none">
-      <nav className="pointer-events-auto flex items-center gap-6 px-8 py-3 bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 rounded-full shadow-lg">
-        <div className="flex items-center gap-6">
+    <div className="fixed bottom-6 inset-x-0 z-50 flex justify-center pointer-events-none">
+      <div className="pointer-events-auto">
+        <Dock className="items-end pb-3 bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg">
           {navItems.map((item) => (
-            <a key={item.name} href={item.href} className="flex items-center">
-              <RandomLetterSwap
-                className="cursor-pointer font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white transition-colors text-sm"
-                label={item.name}
-                staggerDuration={0.025}
-                transition={{ duration: 0.6, type: "spring" }}
-              />
-            </a>
+            <DockItem
+              key={item.name}
+              href={item.href}
+              className="aspect-square rounded-full bg-white/20 dark:bg-black/30 hover:bg-white/40 dark:hover:bg-black/50 transition-colors"
+            >
+              <DockLabel>{item.name}</DockLabel>
+              <DockIcon>
+                <item.icon className="w-5 h-5 text-slate-700 dark:text-slate-200" />
+              </DockIcon>
+            </DockItem>
           ))}
-        </div>
-
-        <div className="w-px h-5 bg-slate-300 dark:bg-slate-700 mx-2" />
-
-        <button
-          onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-          className="p-2 text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white rounded-full transition-all duration-300"
-          aria-label="Toggle theme"
-        >
-          {mounted && theme === "dark" ? (
-            <Sun className="w-4 h-4 transition-transform duration-300 hover:rotate-45" />
-          ) : (
-            <Moon className="w-4 h-4 transition-transform duration-300 hover:-rotate-12" />
-          )}
-        </button>
-      </nav>
+          
+          <div className="w-px h-10 bg-slate-300 dark:bg-slate-700 mx-2 self-center" />
+          
+          <DockItem
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            className="aspect-square rounded-full bg-white/20 dark:bg-black/30 hover:bg-white/40 dark:hover:bg-black/50 transition-colors"
+          >
+            <DockLabel>Theme</DockLabel>
+            <DockIcon>
+              {mounted && theme === "dark" ? (
+                <Sun className="w-5 h-5 text-slate-700 dark:text-slate-200" />
+              ) : (
+                <Moon className="w-5 h-5 text-slate-700 dark:text-slate-200" />
+              )}
+            </DockIcon>
+          </DockItem>
+        </Dock>
+      </div>
     </div>
   );
 }
