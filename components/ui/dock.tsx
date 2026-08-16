@@ -166,7 +166,7 @@ function DockItem({ children, className, href, onClick }: DockItemProps) {
       aria-haspopup='true'
     >
       {Children.map(children, (child) =>
-        cloneElement(child as React.ReactElement, { width, isHovered })
+        cloneElement(child as React.ReactElement<any>, { width, isHovered } as any)
       )}
     </Wrapper>
   );
