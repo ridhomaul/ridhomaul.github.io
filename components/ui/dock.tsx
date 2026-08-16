@@ -126,7 +126,7 @@ function Dock({
 }
 
 function DockItem({ children, className, href, onClick }: DockItemProps) {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLElement>(null);
 
   const { distance, magnification, mouseX, spring } = useDock();
 
