@@ -23,7 +23,7 @@ export default function Navbar() {
   }, []);
 
   return (
-    <div className="fixed bottom-6 inset-x-0 z-50 flex justify-center pointer-events-none">
+    <div className="fixed top-6 inset-x-0 z-50 flex justify-center pointer-events-none">
       <div className="pointer-events-auto">
         <Dock className="items-end pb-3 bg-white/10 dark:bg-black/20 backdrop-blur-md border border-white/20 dark:border-white/10 shadow-lg">
           {navItems.map((item) => (
