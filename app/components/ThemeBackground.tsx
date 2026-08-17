@@ -18,7 +18,7 @@ export default function ThemeBackground() {
   
   return (
     <div 
-      className={`fixed inset-0 -z-10 w-full h-full pointer-events-none transition-opacity duration-700 ${
+      className={`fixed inset-0 z-0 w-full h-full pointer-events-none transition-opacity duration-700 ${
         mounted && resolvedTheme === "dark" ? "opacity-100" : "opacity-0"
       }`}
     >

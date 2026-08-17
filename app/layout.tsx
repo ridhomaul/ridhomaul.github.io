@@ -29,7 +29,9 @@ export default function RootLayout({
         <ThemeProvider>
           <ThemeBackground />
           <Navbar />
-          {children}
+          <div className="relative z-10 flex-1 w-full h-full">
+            {children}
+          </div>
         </ThemeProvider>
       </body>
     </html>
