@@ -3,7 +3,7 @@ import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/app/components/Navbar";
 import { ThemeProvider } from "@/app/components/ThemeProvider";
-import AnimatedGradient from "@/components/ui/animated-gradient";
+import ThemeBackground from "@/app/components/ThemeBackground";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
 const outfit = Outfit({ variable: "--font-geist", subsets: ["latin"] });
@@ -27,9 +27,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col font-sans relative transition-colors duration-300">
         <ThemeProvider>
-          <div className="fixed inset-0 -z-10 w-full h-full pointer-events-none">
-            <AnimatedGradient config={{ preset: "Aurora" }} />
-          </div>
+          <ThemeBackground />
           <Navbar />
           {children}
         </ThemeProvider>
